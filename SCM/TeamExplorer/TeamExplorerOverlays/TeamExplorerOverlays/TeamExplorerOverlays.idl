@@ -1,0 +1,115 @@
+// TeamExplorerOverlays.idl : IDL source for TeamExplorerOverlays
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (TeamExplorerOverlays.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(14B56641-6A51-4619-A810-0AD2DC5868BC),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IReadOnly : IDispatch{
+};
+[
+	object,
+	uuid(E0EA5F4F-560E-498A-8E8F-34B1F3938CC4),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IAdd : IDispatch{
+};
+[
+	object,
+	uuid(64372ACC-923B-4E1F-B9B3-611ECCAD1681),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IReadWrite : IDispatch{
+};
+[
+	object,
+	uuid(7EF02D46-8D13-4DB0-97D8-2CA9ACD8141C),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IModify : IDispatch{
+};
+[
+	object,
+	uuid(FE0B7D3A-49CA-4981-B0C3-A8791782B846),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IConflict : IDispatch{
+};
+[
+	object,
+	uuid(E2EE5CCF-5ECE-4447-B935-B145F5E39076),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IUnversion : IDispatch{
+};
+[
+	uuid(8755F17F-2745-4AA5-B172-8481D91D61C4),
+	version(1.0),
+]
+library TeamExplorerOverlaysLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(9A3FEB2B-8A44-4840-B494-51DD21C256AC)		
+	]
+	coclass ReadOnly
+	{
+		[default] interface IReadOnly;
+	};
+	[
+		uuid(60886D45-2842-47FC-915C-711DC3C220C8)		
+	]
+	coclass Add
+	{
+		[default] interface IAdd;
+	};
+	[
+		uuid(4B5FE33A-F677-460C-8925-9772D92A4475)		
+	]
+	coclass ReadWrite
+	{
+		[default] interface IReadWrite;
+	};
+	[
+		uuid(90A76876-02C2-4E62-B798-B63B002636F0)		
+	]
+	coclass Modify
+	{
+		[default] interface IModify;
+	};
+	[
+		uuid(661CC6B0-27F4-4392-A807-454025AC4E55)		
+	]
+	coclass Conflict
+	{
+		[default] interface IConflict;
+	};
+	[
+		uuid(7146F01D-543B-4DDB-BB9A-74E483DE4E27)		
+	]
+	coclass Unversion
+	{
+		[default] interface IUnversion;
+	};
+};
+
+import "shobjidl.idl";

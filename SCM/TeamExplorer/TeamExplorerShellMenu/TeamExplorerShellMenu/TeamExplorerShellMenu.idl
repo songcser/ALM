@@ -1,0 +1,46 @@
+// TeamExplorerShellMenu.idl : IDL source for TeamExplorerShellMenu
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (TeamExplorerShellMenu.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(A3632FAD-57F2-4185-9C88-1B89671775DD),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IPopupMenu : IDispatch{
+	[id(1)] HRESULT SetEnv(void);
+	[id(2)] HRESULT Checkout(void);
+	[id(3)] HRESULT Update(void);
+	[id(4)] HRESULT Commit(void);
+	[id(5)] HRESULT Checkin(void);
+	[id(6)] HRESULT Cancel(void);
+	[id(7)] HRESULT Add(void);
+	[id(8)] HRESULT Revert(void);
+	[id(9)] HRESULT Merge(void);
+	[id(10)] HRESULT ShowLog(void);
+	[id(11)] HRESULT Diff(void);
+};
+[
+	uuid(BDAF7F51-28F0-4DB3-8512-65B211FF809E),
+	version(1.0),
+]
+library TeamExplorerShellMenuLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(A53268F8-176C-4C49-AB0C-7813F69361FF)		
+	]
+	coclass PopupMenu
+	{
+		[default] interface IPopupMenu;
+	};
+};
+
+import "shobjidl.idl";

@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TEHook32Dll", "TEHook32Dll\TEHook32Dll.vcxproj", "{30D033D3-8359-4CC3-A684-F5789D1D7C40}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TEHook32", "TEHook32\TEHook32.vcxproj", "{61D0F473-A00C-4079-A9F8-8B063913D883}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{30D033D3-8359-4CC3-A684-F5789D1D7C40}.Debug|Win32.ActiveCfg = Debug|Win32
+		{30D033D3-8359-4CC3-A684-F5789D1D7C40}.Debug|Win32.Build.0 = Debug|Win32
+		{30D033D3-8359-4CC3-A684-F5789D1D7C40}.Release|Win32.ActiveCfg = Release|Win32
+		{30D033D3-8359-4CC3-A684-F5789D1D7C40}.Release|Win32.Build.0 = Release|Win32
+		{61D0F473-A00C-4079-A9F8-8B063913D883}.Debug|Win32.ActiveCfg = Debug|Win32
+		{61D0F473-A00C-4079-A9F8-8B063913D883}.Debug|Win32.Build.0 = Debug|Win32
+		{61D0F473-A00C-4079-A9F8-8B063913D883}.Release|Win32.ActiveCfg = Release|Win32
+		{61D0F473-A00C-4079-A9F8-8B063913D883}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

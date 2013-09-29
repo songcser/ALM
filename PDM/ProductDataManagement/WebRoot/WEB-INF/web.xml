@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+  <display-name></display-name>
+  
+  <context-param>
+    <param-name>strFileFolder</param-name>
+    <param-value>C:/ALM/PDM/TempFolder</param-value>
+ </context-param>
+  
+  <context-param>
+    <param-name>workspace</param-name>
+    <param-value>C:/ALM/PDM/Builder/workspace</param-value>
+ </context-param>
+ 
+  <context-param>
+    <param-name>ultraISO</param-name>
+    <param-value>D:/Program Files/UltraISO/UltraISO.exe</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>innoSetup</param-name>
+    <param-value>D:/Program Files/Inno Setup 5/Compil32.exe</param-value>
+  </context-param>
+  
+  <context-param>
+  	<param-name>mysqldumpCmd</param-name>
+  	<param-value>D:/Program Files/MySQL/MySQL Server 5.1/bin/mysqldump</param-value>
+  </context-param>
+  
+  <context-param>
+  	<param-name>datebaseBackup</param-name>
+  	<param-value>C:/ALM/PDM/Backup/DBbackup.sql</param-value>
+  </context-param>
+  
+  <context-param>
+  	<param-name>fileBackup</param-name>
+  	<param-value>C:/ALM/PDM/Backup/filebackup.zip</param-value>
+  </context-param>
+  
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RepositoryServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.RepositoryServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ArtifactServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.ArtifactServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>BuildServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.BuildServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>PDMServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.PDMServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UploadFileServ</servlet-name>
+    <servlet-class>com.prolambda.servlet.UploadFileServ</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ReceivServ</servlet-name>
+    <servlet-class>com.prolambda.servlet.ReceivServ</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>LibraryServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.LibraryServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>TreeServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.TreeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RandCodeServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.RandCodeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.LoginServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SystemServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.SystemServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ProductCategoryServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.ProductCategoryServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ProductServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.ProductServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ProductVersionServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.ProductVersionServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ComponentServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.ComponentServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ComponentCategoryServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.ComponentCategoryServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ComponentVersionServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.ComponentVersionServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>PackageFileServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.PackageFileServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DownloadServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.DownloadServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>BuildUploadServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.BuildUploadServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>BuildManagementServlet</servlet-name>
+    <servlet-class>com.prolambda.servlet.BuildManagementServlet</servlet-class>
+  </servlet>
+
+  <listener>
+	<listener-class>com.prolambda.servlet.BuilderContextListener</listener-class>
+  </listener>
+
+
+
+  <servlet-mapping>
+    <servlet-name>RepositoryServlet</servlet-name>
+    <url-pattern>/RepositoryServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ArtifactServlet</servlet-name>
+    <url-pattern>/ArtifactServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>BuildServlet</servlet-name>
+    <url-pattern>/BuildServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PDMServlet</servlet-name>
+    <url-pattern>/PDMServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UploadFileServ</servlet-name>
+    <url-pattern>/UploadFileServ</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ReceivServ</servlet-name>
+    <url-pattern>/ReceivServ</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LibraryServlet</servlet-name>
+    <url-pattern>/LibraryServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TreeServlet</servlet-name>
+    <url-pattern>/TreeServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RandCodeServlet</servlet-name>
+    <url-pattern>/RandCodeServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/LoginServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SystemServlet</servlet-name>
+    <url-pattern>/SystemServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ProductCategoryServlet</servlet-name>
+    <url-pattern>/ProductCategoryServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ProductServlet</servlet-name>
+    <url-pattern>/ProductServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ProductVersionServlet</servlet-name>
+    <url-pattern>/ProductVersionServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ComponentServlet</servlet-name>
+    <url-pattern>/ComponentServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ComponentCategoryServlet</servlet-name>
+    <url-pattern>/ComponentCategoryServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ComponentVersionServlet</servlet-name>
+    <url-pattern>/ComponentVersionServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>PackageFileServlet</servlet-name>
+    <url-pattern>/PackageFileServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DownloadServlet</servlet-name>
+    <url-pattern>/DownloadServlet</url-pattern>
+  </servlet-mapping>	
+  <servlet-mapping>
+    <servlet-name>BuildUploadServlet</servlet-name>
+    <url-pattern>/BuildUploadServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>BuildManagementServlet</servlet-name>
+    <url-pattern>/BuildManagementServlet</url-pattern>
+  </servlet-mapping>
+  
+  <filter>
+    <filter-name>CustomFilter</filter-name>
+    <filter-class>com.prolambda.servlet.CustomFilter</filter-class>
+ </filter>
+  <filter-mapping>
+    <filter-name>CustomFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+ </filter-mapping>
+ 
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

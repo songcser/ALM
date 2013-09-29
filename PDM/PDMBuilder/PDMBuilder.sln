@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PDMBuilder", "PDMBuilder\PDMBuilder.vcxproj", "{4F7CC64D-3F4C-4213-BA58-00AB05BE97FE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Builder", "Builder\Builder.vcxproj", "{E0508A63-0C1C-4924-A85B-BB1D523772ED}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFCTest", "MFCTest\MFCTest.vcxproj", "{6378612B-6BF4-4C60-943B-54318AC01C7D}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://jysong.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Builder\\Builder.vcxproj
+		SccProjectName1 = Builder
+		SccLocalPath1 = Builder
+		SccProjectUniqueName2 = MFCTest\\MFCTest.vcxproj
+		SccProjectName2 = MFCTest
+		SccLocalPath2 = MFCTest
+		SccProjectUniqueName3 = PDMBuilder\\PDMBuilder.vcxproj
+		SccProjectName3 = PDMBuilder
+		SccLocalPath3 = PDMBuilder
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4F7CC64D-3F4C-4213-BA58-00AB05BE97FE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4F7CC64D-3F4C-4213-BA58-00AB05BE97FE}.Debug|Win32.Build.0 = Debug|Win32
+		{4F7CC64D-3F4C-4213-BA58-00AB05BE97FE}.Release|Win32.ActiveCfg = Release|Win32
+		{4F7CC64D-3F4C-4213-BA58-00AB05BE97FE}.Release|Win32.Build.0 = Release|Win32
+		{E0508A63-0C1C-4924-A85B-BB1D523772ED}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E0508A63-0C1C-4924-A85B-BB1D523772ED}.Debug|Win32.Build.0 = Debug|Win32
+		{E0508A63-0C1C-4924-A85B-BB1D523772ED}.Release|Win32.ActiveCfg = Release|Win32
+		{E0508A63-0C1C-4924-A85B-BB1D523772ED}.Release|Win32.Build.0 = Release|Win32
+		{6378612B-6BF4-4C60-943B-54318AC01C7D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6378612B-6BF4-4C60-943B-54318AC01C7D}.Debug|Win32.Build.0 = Debug|Win32
+		{6378612B-6BF4-4C60-943B-54318AC01C7D}.Release|Win32.ActiveCfg = Release|Win32
+		{6378612B-6BF4-4C60-943B-54318AC01C7D}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

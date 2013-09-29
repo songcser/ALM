@@ -1,0 +1,16 @@
+HKCR
+{
+	NoRemove CLSID
+	{
+		ForceRemove {E79F1E65-D384-4BF1-A55F-6BA86E2D2CB4} = s 'SmtShell Class'
+		{
+			ForceRemove Programmable
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			TypeLib = s '{41FCD755-B21F-4CC0-89EC-F3DD86394AAB}'
+			Version = s '1.0'
+		}
+	}
+}

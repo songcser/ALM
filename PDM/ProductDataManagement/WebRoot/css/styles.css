@@ -1,0 +1,198 @@
+/*
+#header {
+	vertical-align:middle;
+	padding: 0px;
+	height: 60px;
+	background-color: #6495ED;
+}*/
+#header input{
+	background-color: #F0F8FF;
+	height: 40px;
+	position:relative;
+	top:20px;
+	left:5px;
+}
+#tree {
+	width: 30%;
+	height: 70%;
+	background: #00ff00;
+}
+
+#content{
+	
+  	background: #CDCDC1;
+}
+
+
+#footer{
+  	background: #eee;
+}
+p {
+	margin: 0 auto;
+}
+
+
+.hiddenfile{
+	display:none;
+}
+
+.comments {
+ width:99%;/*自动适应父布局宽度*/  
+ overflow:auto;  
+ word-break:break-all;  
+} 
+
+
+a:link{color:#06C;text-decoration:none;}
+a:visited{color:#969;text-decotation:none;}
+a:hover{color:#F90;text-decoration:none;}
+ 
+.normal a:link,
+.normal a:visited{color:#666;}
+.normal a:hover{color:#000;}
+
+.conts{visibility:hidden}
+
+.tab{border-top:solid thin #E0E0E0;
+	border-right:solid thin gray;
+	border-left:solid thin #E0E0E0;
+	font-family:Verdana;
+	font-size:10pt;
+	text-align:center;
+	font-weight:normal
+	}
+	
+.selTab{border-left:solid thin white;
+	border-top:solid thin white;
+	border-right:solid thin black;
+	font-weight:bold;
+	text-align:center
+	}
+	
+
+.tab{border-top:solid thin #E0E0E0;
+	border-right:solid thin gray;
+	border-left:solid thin #E0E0E0;
+	font-family:Verdana;
+	font-size:10pt;
+	text-align:center;
+	font-weight:normal
+	}
+.selTab{border-left:solid thin white;
+	border-top:solid thin white;
+	border-right:solid thin black;
+	font-weight:bold;
+	text-align:center
+	}
+
+.dtree {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #666;
+	white-space: nowrap;
+}
+.dtree img {
+	border: 0px;
+	vertical-align: middle;
+}
+.dtree a {
+	color: #333;
+	text-decoration: none;
+}
+.dtree a.node, .dtree a.nodeSel {
+	white-space: nowrap;
+	padding: 1px 2px 1px 2px;
+}
+.dtree a.node:hover, .dtree a.nodeSel:hover {
+	color: #333;
+	text-decoration: underline;
+}
+.dtree a.nodeSel {
+	background-color: #c0d2ec;
+}
+.dtree .clip {
+	overflow: hidden;
+}
+
+	/* remove the list style */
+#header{
+	height: 57px;
+	background-color: #6495ED;
+	margin:0; 
+	padding:0; 
+	list-style:none;
+}	
+	
+		/* make the LI display inline */
+		/* it's position relative so that position absolute */
+		/* can be used in submenu */
+#header li {
+	float:left; 
+	display:block;
+	width:180px;
+	height:35px;
+	background:#F0F8FF; 
+	font-family: Serif;
+	position:relative;
+	z-index:500; 
+	margin:0 1px;
+	top:20px;
+	left:5px;
+}
+		
+/* this is the parent menu */
+#header li a {
+	display:block; 
+	padding:8px 5px 0 5px; 
+	font-weight:700;  
+	height:23px; 
+	text-decoration:none; 
+	color:#fff; 
+	text-align:center; 
+	color:#333;
+}
+
+#header li a:hover {
+	color:#FFC125;
+}
+	
+/* you can make a different style for default selected value */
+#header a.selected {
+	color:#f00;
+}
+	
+/* submenu, it's hidden by default */
+#header ul {
+	position:absolute; 
+	left:-5; 
+	display:none; 
+	margin:0 0 0 -1px; 
+	padding:0; 
+	top:18px;
+	list-style:none;
+}
+		
+#header ul li {
+	width:180px; 
+	float:left; 
+	border-top:1px solid #fff;
+}
+		
+/* display block will make the link fill the whole area of LI */
+#header ul a {
+	display:block;  
+	height:30px;
+	padding: 8px 5px; 
+	color:#666;
+}
+		
+#header ul a:hover {
+/*	text-decoration:underline;	*/
+}
+
+/* fix ie6 small issue */
+/* we should always avoid using hack like this */
+/* should put it into separate file : ) */
+*html #header ul {
+	margin:0 0 0 -2px;
+}

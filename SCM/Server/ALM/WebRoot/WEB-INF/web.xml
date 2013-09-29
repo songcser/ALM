@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+  <display-name>Application Lifecycle Management</display-name>	
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <servlet>    
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>com.prolambda.alm.scmcentral.servlet.LoginServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>RandCodeServlet</servlet-name>
+    <servlet-class>com.prolambda.alm.scmcentral.servlet.RandCodeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ReposManServlet</servlet-name>
+    <servlet-class>com.prolambda.alm.scmcentral.servlet.ReposManServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UserManServlet</servlet-name>
+    <servlet-class>com.prolambda.alm.scmcentral.servlet.UserManServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UserGroupManServlet</servlet-name>
+    <servlet-class>com.prolambda.alm.scmcentral.servlet.UserGroupManServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SingleReposManServlet</servlet-name>
+    <servlet-class>com.prolambda.alm.scmcentral.servlet.SingleReposManServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SysManServlet</servlet-name>
+    <servlet-class>com.prolambda.alm.scmcentral.servlet.SysManServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>LogoutServlet</servlet-name>
+    <servlet-class>com.prolambda.alm.scmcentral.servlet.LogoutServlet</servlet-class>
+  </servlet>
+
+
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/LoginServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RandCodeServlet</servlet-name>
+    <url-pattern>/RandCodeServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ReposManServlet</servlet-name>
+    <url-pattern>/ReposManServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserManServlet</servlet-name>
+    <url-pattern>/UserManServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserGroupManServlet</servlet-name>
+    <url-pattern>/UserGroupManServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SingleReposManServlet</servlet-name>
+    <url-pattern>/SingleReposManServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SysManServlet</servlet-name>
+    <url-pattern>/SysManServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LogoutServlet</servlet-name>
+    <url-pattern>/LogoutServlet</url-pattern>
+  </servlet-mapping>
+  
+  <context-param>
+  	<param-name>scm_db</param-name>
+  	<param-value>scmcentral/config/Config.ini</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>scm_temp</param-name>
+  	<param-value>c:/temp</param-value>
+  </context-param>
+
+</web-app>

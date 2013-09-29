@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="ALM"
+  id="myeclipse.1368585340253"
+  context-root="/ALM"
+  j2ee-spec="6.0"
+  archive="ALM.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

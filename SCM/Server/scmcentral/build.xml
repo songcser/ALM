@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="jar" name="scmcentral">
+    <property environment="env"/>
+    <property name="ALM.location" value="../ALM"/>
+    <property name="ECLIPSE_HOME" value="C:/MyEclipse/MyEclipse 10"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="Java EE 6 Libraries.libraryclasspath">
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/bean-validator.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/javax.annotation.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/javax.ejb.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/javax.enterprise.deploy.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/javax.jms.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/javax.management.j2ee.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/javax.persistence.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/javax.resource.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/javax.security.auth.message.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/javax.security.jacc.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/javax.servlet.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/javax.servlet.jsp.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/javax.servlet.jsp.jstl.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/javax.transaction.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/jaxb-api-osgi.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/jsf-api.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/jsf-impl.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/jsr311-api.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/jstl-impl.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/mail.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/webservices-api-osgi.jar"/>
+        <pathelement location="C:/MyEclipse/Common/plugins/com.genuitec.eclipse.j2eedt.core_10.0.0.me201110301321/data/libraryset/EE_6/weld-osgi-bundle.jar"/>
+    </path>
+    <path id="Dependences.userclasspath">
+        <pathelement location="../Library/ActiveDirectory.jar"/>
+        <pathelement location="../Library/inieditor-r2.jar"/>
+    </path>
+    <path id="scmcentral.classpath">
+        <pathelement location="bin"/>
+        <path refid="Java EE 6 Libraries.libraryclasspath"/>
+        <path refid="Dependences.userclasspath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="scmcentral.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects">
+        <ant antfile="build.xml" dir="${ALM.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${ALM.location}" inheritAll="false" target="build">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+    </target>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+	<target name="jar" depends="build">						
+			<jar jarfile="bin/scmcentral.jar">
+		 		<fileset dir="bin">
+		 			<include name="**/*" />
+		 			<exclude name="**/*.jar"/>
+		 		</fileset>
+		 	</jar>			
+		</target>
+</project>

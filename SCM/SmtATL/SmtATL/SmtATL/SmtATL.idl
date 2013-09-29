@@ -1,0 +1,45 @@
+// SmtATL.idl : IDL source for SmtATL
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (SmtATL.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(8EC82675-DBFA-4205-9138-C8EFAD044BD1),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface ISmtShell : IDispatch{
+	[id(1)] HRESULT SmtSetEnv(void);
+	[id(2)] HRESULT SmtCheckout(void);
+	[id(3)] HRESULT SmtUpdate(void);
+	[id(4)] HRESULT SmtCommit(void);
+	[id(5)] HRESULT SmtCheckin(void);
+	[id(6)] HRESULT SmtCancel(void);
+	[id(7)] HRESULT SmtAdd(void);
+	[id(8)] HRESULT SmtRevert(void);
+	[id(9)] HRESULT SmtMerge(void);
+	[id(10)] HRESULT SmtImport(void);
+};
+[
+	uuid(41FCD755-B21F-4CC0-89EC-F3DD86394AAB),
+	version(1.0),
+]
+library SmtATLLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(E79F1E65-D384-4BF1-A55F-6BA86E2D2CB4)		
+	]
+	coclass SmtShell
+	{
+		[default] interface ISmtShell;
+	};
+};
+
+import "shobjidl.idl";

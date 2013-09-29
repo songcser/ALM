@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="PDMplugin"
+  id="myeclipse.1365560712105"
+  context-root="/PDMplugin"
+  j2ee-spec="5.0"
+  archive="PDMplugin.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp" />
+  </attributes>
+</project-module>
+
