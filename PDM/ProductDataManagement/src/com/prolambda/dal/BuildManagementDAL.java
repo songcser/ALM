@@ -233,6 +233,50 @@ public class BuildManagementDAL {
 		return file;
 	}
 	
+	public ConfigFile getConfigByName(String name){
+		ConfigFile file = new ConfigFile();
+		Database db = new Database();
+		Connection conn = null;
+		Statement st = null;
+		ResultSet rs = null;
+		try {
+			conn = db.getConn();
+			st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			rs = st.executeQuery("select * from t_configfile where name='"+name+"'");
+			
+			while(rs.next())
+			{
+				
+				int id = rs.getInt(1);
+				file.setId(id);
+				//String name = rs.getString(2);
+				file.setName(name);
+				Boolean isRunning = rs.getBoolean(3);
+				file.setIsRunning(isRunning);
+				Timestamp buildTime = rs.getTimestamp(4);
+				file.setBuildtime(buildTime);
+				//String buildTime = rs.getString(4);
+				//file.setBuildtime(Timestamp.valueOf(buildTime));
+				String filename = rs.getString(5);
+				file.setFileName(filename);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			   try{
+				   rs.close();
+				   st.close();
+				   conn.close();
+			   }catch(Exception ex){
+				   ex.printStackTrace();
+			   }
+		
+		}
+		return file;
+	}
+	
 	public int getIdByFileName(String filename){
 		Database db = new Database();
 		Connection conn = null;

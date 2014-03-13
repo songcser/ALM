@@ -5,14 +5,31 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.prolambda.controller.ArtifactService;
 import com.prolambda.controller.BuildManagementService;
+import com.prolambda.controller.BuildService;
+import com.prolambda.controller.DependenceService;
+import com.prolambda.controller.FileService;
+import com.prolambda.controller.RepositoryService;
+import com.prolambda.model.Artifact;
+import com.prolambda.model.ArtifactList;
+import com.prolambda.model.Build;
+import com.prolambda.model.BuildList;
 import com.prolambda.model.ConfigFile;
+import com.prolambda.model.Dependence;
+import com.prolambda.model.DependenceList;
+import com.prolambda.model.Repository;
 
 public class BuildManagementServlet extends HttpServlet {
 
@@ -23,12 +40,18 @@ public class BuildManagementServlet extends HttpServlet {
 
 	private String strFileFolder;
 	private String workspace;
+	private String tempPath;
+	private String buildPath;
 	public void init(){
 		strFileFolder = getServletContext().getInitParameter("strFileFolder");
 		workspace = getServletContext().getInitParameter("workspace");
-		//ServletConfig config = getServletConfig();
-		///strFileFolder = config.getInitParameter("strFileFolder");
-		
+		this.buildPath = "\""+getServletContext().getRealPath("/")+"builder"+"\\Builder.exe\"";
+		this.workspace = this.workspace.replace("/", "\\");
+		this.tempPath = this.workspace+"\\temp";
+		File file = new File(this.tempPath);
+		if(!file.exists()){
+			file.mkdirs();
+		}
 	}
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -67,8 +90,66 @@ public class BuildManagementServlet extends HttpServlet {
 			delete(request,response);
 		}else if("download".equals(flag)){
 			download(request,response);
+		}else if("build".equals(flag)){
+			build(request,response);
 		}
 	}
+	
+	private void build(HttpServletRequest request,HttpServletResponse response){
+		String idList = request.getParameter("ids");
+		String[] ids = idList.split(",");
+		BuildManagementService buildManSer = new BuildManagementService();
+		BuildService buildSer = new BuildService();
+		FileService fileSer = new FileService();
+		for(String id:ids){
+			if("".equals(id))
+				continue;
+			ConfigFile file = buildManSer.getById(Integer.parseInt(id));
+			buildSer.exeCmd(buildPath, strFileFolder, tempPath, workspace, "true", file);
+			/*
+			String filepath =strFileFolder +"/"+ file.getFileName();
+			File oldFile = new File(filepath);
+			File newFile = new File(this.tempPath+"\\"+file.getName());
+			//System.out.println("old File: "+oldFile.getAbsolutePath());
+			//System.out.println("new File: "+newFile.getAbsolutePath());
+			if(oldFile.exists()){
+				try {
+					fileSer.copyFile(oldFile,newFile);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				String name = file.getName();
+				int index = name.lastIndexOf(".");
+				if(index>0){
+					name = name.substring(0,index);
+				}
+				String ws = workspace + "\\" + name;
+				File wfile = new File(ws);
+				if (!wfile.exists()) {
+					wfile.mkdirs();
+				}
+				//oldFile.renameTo(newFile);
+				filepath = newFile.getAbsolutePath();
+				filepath = filepath.replace("/", "\\");
+				String cmd = buildPath+" \""+ws+"\" \""+ filepath +"\" true";
+				
+				//System.out.println("cmd: "+cmd);
+				int exitValue = buildSer.exeCmd(cmd);
+				if(exitValue==0){
+					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					Date date = new Date();
+					String time = df.format(date);
+					Timestamp buildtime = Timestamp.valueOf(time);
+					buildManSer.updateBuildTime(file.getId(), buildtime);
+					//buildSer.BuildReference(name);
+				}
+			}
+			*/
+		}
+	}
+	
+	
 	
 	private void download(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		String id = request.getParameter("id");
@@ -118,6 +199,7 @@ public class BuildManagementServlet extends HttpServlet {
 	    }
 	}
 
+	
 	public void delete(HttpServletRequest request,HttpServletResponse response){
 		String idList = request.getParameter("ids");
 		BuildManagementService buildSer = new BuildManagementService();

@@ -46,4 +46,9 @@ public class DependenceService {
 		DependenceDAL depDAL = new DependenceDAL();
 		return depDAL.contains(dep);
 	}
+	
+	public DependenceList getAllByRefId(int refId){
+		DependenceDAL depDAL = new DependenceDAL();
+		return depDAL.getAllByRefId(refId);
+	}
 }

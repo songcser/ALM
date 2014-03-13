@@ -197,7 +197,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     						<td><%=comCate.getModified() %></td>
     					</tr>
     					<tr>
-    						<td>Number of Product</td>
+    						<td>Number of Component</td>
     						<td id="count"><%=comCate.getComponentCount() %></td>
     					</tr>
     				</table>

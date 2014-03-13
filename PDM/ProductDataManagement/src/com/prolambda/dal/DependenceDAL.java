@@ -156,6 +156,54 @@ public class DependenceDAL {
 		return true;
 	}
 	
+	public DependenceList getAllByRefId(int refId){
+		DependenceList depList = new DependenceList();
+		Database db = new Database();
+		Connection conn = null;
+		Statement st = null;
+		ResultSet rs = null;
+		try {
+			conn = db.getConn();
+			st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			rs = st.executeQuery("select * from t_dependence where referenceid = '"+refId+"'");
+			
+			while(rs.next())
+			{
+				Dependence dep = new Dependence();
+				
+				int id = rs.getInt(1);
+				dep.setId(id);
+				String flag = rs.getString(2);
+				dep.setFlag(flag);
+				//int refId = rs.getInt(3);
+				dep.setReferenceId(refId);
+				String path = rs.getString(4);
+				dep.setPath(path);
+				//dep.setPlatform(platform);
+				//String configuration = rs.getString(4);
+				//dep.setConfiguration(configuration);
+				String location = rs.getString(5);
+				dep.setLocation(location);
+				dep.setBuildId(rs.getInt(6));
+				depList.add(dep);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			   try{
+				   rs.close();
+				   st.close();
+				   conn.close();
+			   }catch(Exception ex){
+				   ex.printStackTrace();
+			   }
+		
+		}
+		
+		return depList;
+	}
+	
 	public DependenceList getAll(int buildId)
 	{
 		DependenceList depList = new DependenceList();

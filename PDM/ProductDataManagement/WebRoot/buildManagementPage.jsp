@@ -170,6 +170,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		ajaxSend(url,false);
 	}
 	
+	function build(){
+		if(confirm("do you want to build?")==false)
+			return;
+		var ids = getIds("true");
+		var url = "BuildManagementServlet?flag=build&ids="+ids;
+		ajaxSend(url,false);
+	}
+	
 	function deleteFile(){
 		if(confirm("do you want to delete")==false)
 			return;
@@ -304,6 +312,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<input type="button" value="run" style="position:relative;left:20;top:10" onclick="run()" />
 			<input type="button" value="stop" style="position:relative;left:20;top:10" onclick="stop()" />
 			<input type="button" value="delete" style="position:relative;left:20;top:10" onclick="deleteFile()" />
+			<input type="button" value="build" style="position:relative;left:20;top:10" onclick="build()" />
 			<div id="load" style="width:98%;height:100px;overflow:auto;border-style:outset;background-color:#fff;position:relative;top:10">
 	
 			<form id="fileUpload" method="post" action="UploadFileServ"  enctype="multipart/form-data" target="hidden_frame">

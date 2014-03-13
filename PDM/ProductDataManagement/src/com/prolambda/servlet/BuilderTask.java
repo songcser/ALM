@@ -2,12 +2,10 @@ package com.prolambda.servlet;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,6 +14,8 @@ import java.util.TimerTask;
 import javax.servlet.ServletContext;
 
 import com.prolambda.controller.BuildManagementService;
+import com.prolambda.controller.BuildService;
+import com.prolambda.controller.FileService;
 import com.prolambda.model.ConfigFile;
 import com.prolambda.model.ConfigFileList;
 
@@ -43,26 +43,26 @@ public class BuilderTask  extends TimerTask{
 		//this.buildPath = this.buildPath.replace("\\", "/");
 		System.out.println("start");
 	}
+	
 	public BuilderTask(ServletContext context,String path){
 		
 	}
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		//System.out.println("buildPath: "+buildPath);
-		//System.out.println("workspace: "+workspace);
-		//System.out.println("");
-		//System.out.println("not run");
+		
 		if(!isRunning){
 			
 			isRunning = true;
 			System.out.println("Running");
-			
+			//FileService fileSer = new FileService();
+			BuildService buildService = new BuildService();
 			BuildManagementService buildSer = new BuildManagementService();
 			ConfigFileList fileList = buildSer.getAllConfig();
 			//System.out.println("file size:"+fileList.size());
 			for(ConfigFile file:fileList){
 				if(file.getIsRunning()){
+					buildService.exeCmd(buildPath, strFileFolder, tempPath, workspace, "false", file);
+					/*
 					String filepath =strFileFolder +"/"+ file.getFileName();
 					File oldFile = new File(filepath);
 					File newFile = new File(this.tempPath+"\\"+file.getName());
@@ -88,10 +88,10 @@ public class BuilderTask  extends TimerTask{
 						//oldFile.renameTo(newFile);
 						filepath = newFile.getAbsolutePath();
 						filepath = filepath.replace("/", "\\");
-						String cmd = buildPath+" \""+ws+"\" \""+ filepath +"\"";
+						String cmd = buildPath+" \""+ws+"\" \""+ filepath +"\" false";
 						
 						//System.out.println("cmd: "+cmd);
-						int exitValue = exeCmd(cmd);
+						int exitValue = buildService.exeCmd(cmd);
 						if(exitValue==0){
 							SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 							Date date = new Date();
@@ -102,6 +102,7 @@ public class BuilderTask  extends TimerTask{
 						//System.out.println("finish");
 						//newFile.renameTo(oldFile);
 					}
+					*/
 				}
 			}
 			delAllFile(tempPath);
@@ -111,68 +112,6 @@ public class BuilderTask  extends TimerTask{
 		}else{
 			System.out.println("not stop");
 		}
-	}
-	public int  exeCmd(String cmd){
-		//System.out.println("building");
-		Runtime run = Runtime.getRuntime();
-        Process process = null;
-        try {
-            process = run.exec(cmd); // 执行cmd命令
-            final BufferedInputStream in = new BufferedInputStream(process.getInputStream());  
-            //final InputStream is1 = process.getInputStream();
-            new Thread(new Runnable() {
-                public void run() {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(in)); 
-                    try {
-                    	String str;
-                    	while ((str = br.readLine()) != null){
-
-                            //获得命令执行后在控制台的输出信息  
-                            System.out.println("Output---> "+str);// 打印输出信息  
-                             
-                    	}
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-                }
-
-				public Runnable start() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-            }.start());
-            //BufferedReader inBr = new BufferedReader(new InputStreamReader(in));
-            String lineStr;  
-           // while ((lineStr = inBr.readLine()) != null){
-
-                //获得命令执行后在控制台的输出信息  
-           //     System.out.println("Output---> "+lineStr);// 打印输出信息  
-                 
-          //  }
-            BufferedInputStream errin = new BufferedInputStream(process.getErrorStream());
-            BufferedReader errbr = new BufferedReader(new InputStreamReader(errin));
-            while((lineStr = errbr.readLine())!=null){
-            	System.out.println("Error--->"+lineStr);
-            }
-            //检查命令是否执行失败。
-            /*
-            while(process.exitValue()!=0&&process.exitValue()!=1){
-            	System.out.println("exit value"+process.exitValue());
-            }*/
-            if(process.waitFor()!=0){
-            	//System.out.println("exit value: "+process.exitValue());
-            }
-            //inBr.close();
-            in.close();
-            errbr.close();
-            errin.close();
-        } catch (Exception e) {
-            System.out.println("Error executing");
-        }
-        //System.out.println("Notepad returned " + process.exitValue());
-        
-        return process.exitValue();
 	}
 
 	public  void copyFile(File sourceFile, File targetFile) throws IOException {

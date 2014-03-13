@@ -361,7 +361,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<div style="position:relative; left:10;float:left;width:15%;height:250px;overflow:auto;border-style:outset">
 					 			
 					 			<input type="submit" name="remove" value="Remove" style="height:30px;width:70px;position:relative;left:20;top:50;" onclick="removeLibrary()" /><p>
+					 			<!--  
 					 			<input type="submit" name="test" value="Test" style="height:30px;width:70px;position:relative;left:20;top:60;" onclick="importLibraryDialog()" /><p>
+								-->
 								<input type="submit" name="download" value="Download" style="height:30px;width:70px;position:relative;left:20;top:70" onclick="downloadLibrary()" /><p>
 							</div>
 							

@@ -37,6 +37,11 @@ public class BuildManagementService {
 		return buildDAL.getAll();
 	}
 	
+	public ConfigFile getConfigByName(String name){
+		BuildManagementDAL buildDAL = new BuildManagementDAL();
+		return buildDAL.getConfigByName(name);
+	}
+	
 	public ConfigFile getById(int id){
 		BuildManagementDAL buildDAL = new BuildManagementDAL();
 		return buildDAL.getById(id);
