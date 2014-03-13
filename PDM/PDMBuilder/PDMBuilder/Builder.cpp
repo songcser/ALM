@@ -27,9 +27,11 @@
 	 {
 		 if(EOF==fprintf(fp,"%s",log.c_str()))
 		 {
+			 fflush(fp);
 			 fclose(fp);
 			 return false;
 		 }
+		 fflush(fp);
 		 fclose(fp);
 	 }
 
@@ -139,15 +141,16 @@ string ExeCmd(char *pszCmd,int &exitCode,char *workspace)
 string ExeCommand(char *pszCmd,int &exitCode,char *workspace)
 {
 	if(NULL == pszCmd){
-		return "";
+		return "command null";
 	}
-
+	string strRet = "";
 	SECURITY_ATTRIBUTES sa = {sizeof(SECURITY_ATTRIBUTES), NULL, TRUE};
 	HANDLE hRead, hWrite;
 	if (!CreatePipe(&hRead, &hWrite, &sa, 0))
 	{
-		return "";
+		return "create pipe error";
 	}
+	
 
 	STARTUPINFO sii = {sizeof(STARTUPINFO)};
 	GetStartupInfo(&sii);
@@ -160,20 +163,23 @@ string ExeCommand(char *pszCmd,int &exitCode,char *workspace)
 	if (!CreateProcess(NULL, pszCmd, NULL, NULL, TRUE, NULL, NULL, workspace, &sii, &pii))
 	{
 		int error = GetLastError();
-		return "";
+		string cmd(pszCmd);
+		return "command: "+cmd+" create process error";
 	}
+	
 
 	//DWORD rc = WaitForSingleObject(pii.hProcess,6000);
-	DWORD rc = MsgWaitForMultipleObjects(1,&pii.hThread,FALSE,100,QS_ALLINPUT);
-
+	DWORD rc = MsgWaitForMultipleObjects(1,&pii.hThread,FALSE,5000,QS_ALLINPUT);
+	//strRet += "waitformultipleobject";
 	if (rc==WAIT_TIMEOUT)
 	{
 		//printf("%s","timeout");
 	}else if (WAIT_FAILED ==rc)
 	{
+		strRet += "filed";
 		//printf("%s","failed");
 	}
-	 
+	//strRet
 
 	DWORD code = STILL_ACTIVE;
 	//while(code == STILL_ACTIVE)
@@ -184,16 +190,15 @@ string ExeCommand(char *pszCmd,int &exitCode,char *workspace)
 	
 	exitCode = code;
 
-	
-
 	CloseHandle(hWrite);
 
-	string strRet;
+	
 	char buff[1024] = {0};
 	DWORD dwRead = 0;
 	while (ReadFile(hRead, buff, 1024, &dwRead, NULL))
 	{
 		strRet.append(buff, dwRead);
+		memset(buff,0,1024);
 	}
 	CloseHandle(hRead);
 
@@ -311,7 +316,10 @@ string ExeUpLoad(string pServletURL,string repName,string artName,string number,
 
 	code = curl_easy_perform(curl);
 	if(code != CURLE_OK){
-		return false;
+		curl_formfree(post);
+		curl_easy_cleanup(curl);
+		curl_global_cleanup(); 
+		return log;
 	}
 
 
@@ -472,11 +480,12 @@ void GetFiles(string path,vector<string> &files)
     if((hFile= _findfirst(p.c_str(),&fileinfo))   !=   -1)  
 	{    
         do {
+
             if((fileinfo.attrib&_A_SUBDIR)) {    
                 if   (strcmp(fileinfo.name,".")   !=   0   &&   strcmp(fileinfo.name,"..")   !=   0)    
                     GetFiles(p.assign(path).append("\\").append(fileinfo.name), files);    
             }  else  {    
-                files.push_back(path.append("\\").append(fileinfo.name)  );  
+                files.push_back(p.assign(path).append("\\").append(fileinfo.name)  );  
             }    
         }   while   (_findnext(hFile,&fileinfo)   ==   0);    
   
@@ -606,7 +615,7 @@ string ExeDownLoad(char * pServletURL, char *pArgument, char *pDestPath)
 	*/
 //	string zipFile("\"");
 //	zipFile.append(stZipFile).append("\"");
-	//remove(stZipFile.c_str());
+	remove(stZipFile.c_str());
 	
 	return log;//content.append(log);
 }

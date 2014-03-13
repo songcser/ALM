@@ -14,6 +14,7 @@
 #define BUILDPASSWORD "SKYfly2012"
 // This is an example of an exported variable
 string workspace;
+string forceFlag;
 string numberFile = "nextBuildNumber";
 string buildTime;
 string duration;
@@ -100,11 +101,11 @@ bool GetChildNodeByName(TiXmlElement* pRootEle, string &strNodeName,TiXmlElement
 	return false;
 }
 
-PDMBUILDER_API void setWorkSpace(string ws)
+PDMBUILDER_API void setWorkSpace(string ws,string flag)
 {
 
 	workspace = ws;
-	
+	forceFlag = flag;
 }
 
 PDMBUILDER_API bool setConfigXML(char *xml)
@@ -197,12 +198,13 @@ PDMBUILDER_API bool checkSourceCode()
 	if (!PathFileExists(svnPath.c_str()))
 	{
 		log += checkout(workspace);
+		writeLog(log,workspace+"\\log");
 		if ("error"==log)
 		{
 			delete sourceCode;
 			return false;
 		}
-		writeLog(log,workspace+"\\log");
+		//writeLog(log,workspace+"\\log");
 		delete sourceCode;
 		return true;
 	}
@@ -213,12 +215,12 @@ PDMBUILDER_API bool checkSourceCode()
 	sprintf(updateCmd,"svn update --force --non-interactive --username %s --password %s --accept tf \"%s\"",BUILDNAME,BUILDPASSWORD,sourceCode->GetLocalPath().c_str());
 
 	int exitCode = 0;
-	
-	log = ExeCommand(updateCmd,exitCode,(char *)workspace.c_str());
+	log.assign("<---------------------------checkout--------------------------->\n ");
+	log += ExeCommand(updateCmd,exitCode,(char *)workspace.c_str());
 	if (exitCode>0&&exitCode!=STILL_ACTIVE)
 	{
 		log += "update source code error";
-
+		writeLog(log,workspace+"\\log");
 		delete sourceCode;
 		return false;
 	}else if (log.find("svn cleanup")!=string::npos)
@@ -232,22 +234,35 @@ PDMBUILDER_API bool checkSourceCode()
 		if (exitCode>0&&exitCode!=STILL_ACTIVE)
 		{
 			log += "update source code error";
+			writeLog(log,workspace+"\\log");
 			delete sourceCode;
 			return false;
 		}
 	}
 	int index = log.find("Updated to revision");
+	
 	if (index>0)
 	{
 		index += 20;
 		int in = log.find_last_of(".");
 		sourceVersion = log.substr(index,in-index);
 		writeLog(log,workspace+"\\log");
-
 		delete sourceCode;
 		return true;
 	}else
 	{
+		int rindex = log.rfind("At revision");
+		if (rindex!=string::npos)
+		{
+			int lindex = log.rfind(".");
+			rindex += 12;
+			sourceVersion = log.substr(rindex,lindex-rindex);
+		}
+		if (forceFlag!="false")
+		{
+			writeLog(log,workspace+"\\log");
+		}
+		
 		delete sourceCode;
 		return false;
 	}
@@ -277,7 +292,7 @@ PDMBUILDER_API string checkout(string workspace)
 	log += ExeCommand(ExportCmd,exitCode,(char *)workspace.c_str());
 	if (exitCode>0&&exitCode!=STILL_ACTIVE)
 	{
-		return "error";
+		return log;
 	}
 
 	if ("head" == sourceCode->GetVersion())
@@ -288,8 +303,6 @@ PDMBUILDER_API string checkout(string workspace)
 			int in = log.rfind(".");
 			index += 21;
 			sourceVersion = log.substr(index,in-index);
-		}else{
-			return "error";
 		}
 	}else{
 		sourceVersion = sourceCode->GetVersion();
@@ -484,6 +497,11 @@ list<BuildStep *> *getBuildStep()
 			}else return false;
 			if (GetChildNodeByName(Nodes.at(i),options,pNode))
 			{
+				if (pNode==NULL)
+				{
+					step->SetOptions("");
+				}
+				else
 				step->SetOptions(pNode->GetText());
 			}else return false;
 
@@ -503,7 +521,7 @@ list<BuildStep *> *getBuildStep()
 string RunBuildStep(string name,string program,string options,int &exitCode)
 {
 	char BuildCmd[255];
-
+	memset(BuildCmd,0,255);
 	program = changeSeparator(program);
 	//options = changeSeparator(options);
 	/*
@@ -523,13 +541,19 @@ string RunBuildStep(string name,string program,string options,int &exitCode)
 		sprintf(BuildCmd, "%s %s",program.c_str(),fullpath.c_str());
 	}
 	*/
-	sprintf(BuildCmd,"%s %s",program.c_str(),options.c_str());
 	
-	string log="\n<---------------------------"+name+"--------------------------->\n";
+	sprintf(BuildCmd,"\"%s\" %s",program.c_str(),options.c_str());
+	//writeLog(BuildCmd,workspace+"\\log");
+	//string str = "str test";
+	//writeLog(str,workspace+"\\log");
+	string log="---------------------------";
+	//writeLog(log,workspace+"\\log");
+	log.append(name);
+	log.append("--------------------------->\n");
 	
-	//log += ExeCmd(BuildCmd,exitCode,(char *)workspace.c_str());
-	log += ExeCommand(BuildCmd,exitCode,(char *)workspace.c_str());
-
+	//writeLog(log,workspace+"\\log");
+	log = ExeCommand(BuildCmd,exitCode,(char *)workspace.c_str());
+	writeLog(log,workspace+"\\log");
 	return log;
 }
 
@@ -550,17 +574,47 @@ PDMBUILDER_API string process()
 	sprintf(Time,"%4d-%02d-%02d %02d:%02d:%02d.%03d ",sys.wYear,sys.wMonth,sys.wDay,sys.wHour,sys.wMinute, sys.wSecond,sys.wMilliseconds);
 	for (list<BuildStep *>::iterator iter=buildStep->begin();iter != buildStep->end();++iter)
 	{
+		log = "";
 		string name = (*iter)->GetName();
 		string program = (*iter)->GetProgram();
 		string options = (*iter)->GetOptions();
 		environment += name +";";
+		//log = name + program + options;
+		//writeLog(log,workspace+"\\log");
 		log += RunBuildStep(name,program,options,exitCode);
+		//Sleep(500);
 		int index = log.rfind("Error(s)");
-		string str = log.substr(index-2,1);
-		exitError += atoi(str.c_str());
-		index = log.rfind("Warning(s)");
-		str = log.substr(index-2,1);
-		exitWarning += atoi(str.c_str());
+		if (index == -1)
+		{
+			index = log.rfind("error");
+			if (index != -1)
+			{
+				//string str = log.substr(index-2,1);
+				exitError ++;
+			}
+			else 
+			{
+				index = log.rfind("warning");
+				if (index!=-1)
+				{
+					//string str = log.substr(index-2,1);
+					exitWarning ++;
+				}
+				else
+				{
+					exitSuccess ++;
+				}
+			}
+		}
+		else
+		{
+			string str = log.substr(index-2,1);
+			exitError += atoi(str.c_str());
+			index = log.rfind("Warning(s)");
+			str = log.substr(index-2,1);
+			exitWarning += atoi(str.c_str());
+		}
+		//writeLog(log,workspace+"\\log");
 		/*
 		if (exitCode==0)
 		{
@@ -599,25 +653,31 @@ PDMBUILDER_API string process()
 	}
 
 	//result.assign("SUCCESS");
-
-
+	log = "";
+	//log = "build finish;\n";
+	//writeLog(log,workspace+"\\log");
 	FILE *fp;
 	string filePath = workspace+"\\"+numberFile;
 
 	if (!PathFileExists(filePath.c_str()))
 	{
 		buildNumber = 1;
-		
+		//log = "create next number file";
 		if (fp = fopen(filePath.c_str(),"w"))
 		{
 			if (EOF == fprintf(fp,"%d",buildNumber))
 			{
 				log += "[Log-->] write build number error";
 			}
+			else
+			{
+				log += "[Log-->] write build number success";
+			}
 			fclose(fp);
 		}else
 		{
 			log += "[log -->] open file error";
+			//writeLog(log,workspace+"\\log");
 		}
 	}
 	else if (fp=fopen(filePath.c_str(),"r+"))
@@ -633,14 +693,15 @@ PDMBUILDER_API string process()
 			//buildNumber = 0;
 			log += "[Log-->] write build number error";
 		}
-
+		else
+		{
+			log += "[Log-->] write build number success";
+		}
 		fclose(fp);
 	}
 	
-	
-	//log += ExeUpLoadMessage()
-	delete buildStep;
 	writeLog(log,workspace+"\\log");
+	delete buildStep;
 	return log;
 }
 
