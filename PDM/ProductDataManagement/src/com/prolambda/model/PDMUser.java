@@ -1,7 +1,13 @@
 package com.prolambda.model;
 
-public class PDMUser {
+import java.io.Serializable;
 
+public class PDMUser implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4136033496942802446L;
 	private int id;
 	private String userId;
 	private String name;

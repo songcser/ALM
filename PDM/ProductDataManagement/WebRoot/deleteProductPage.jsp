@@ -24,7 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(proList.size()<1)
 			return;
 	%>
-	var name = '<%=proList.get(0).getName() %>';
+	var name = '<%=proList.get(0).getName().replace(" ", "%") %>';
 	
 	function selectChange(){
 		var obj = document.getElementById("productList");
@@ -42,9 +42,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     	<select id="productList" style="width:200px" onchange="selectChange()">
     		<%
-    			for(Product pro:proList){ 
+    			for(Product pro:proList){
+    				String cName = pro.getName();
+    				cName = cName.replace(" ", "%");
     		 %>
-    		 <option value=<%=pro.getName() %>><%=pro.getName() %></option>
+    		 <option value=<%=cName %>><%=pro.getName() %></option>
     		 <%} %>
     	</select>
 

@@ -20,6 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/pager.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function () {	
 	
@@ -58,15 +59,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			//alert(strId);
 			var servlet = "SystemServlet?flag=addUser"+strId;
 			//alert(servlet);
-			location.href=servlet;
-			strId="";
+			//location.href=servlet;
+			ajaxSend(servlet,false);
+			location.reload();
+			
+		}
+	}
+	
+	function RemoveUserDialog(){
+		var retValue = window.showModalDialog("removeUserPage.jsp",window,"dialogHeight:100px,dialogWidth:250px,status:0, edge:sunken")
+	
+		if(retValue){
+			var servlet = "SystemServlet?flag=removeUser&name="+retValue;
+			ajaxSend(servlet,false);
+			location.reload();
+		}
+	}
+	
+	function setBuilder(){
+		var retValue=window.showModalDialog("SetBuilder.jsp",window,"dialogHeight:150px,dialogWidth:50px, status:0, edge:sunken");
+		
+		if(retValue){
+			var strName = retValue[0];
+			var strPassword = retValue[1];
+			
+			var servlet = "SystemServlet?flag=setBuilder&name="+strName+"&password="+strPassword;
+			ajaxSend(servlet,false);
+			location.reload();
 		}
 	}
 	
 	function backup(){
 		var retValue=window.showModalDialog("backup.jsp",window,"dialogHeight:500px,dialogWidth:400px, status:0, edge:sunken");
 		//window.open('backup.jsp', 'Backup', 'height=600,width=500,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no');
+		if(retValue){
+			location.reload();
+		}
+	}
 	
+	function tobackup(){
+		var servlet = "SystemServlet?flag=toBackup";
+		ajaxSend(servlet,false);
+	}
+	
+	function backupLog(){
+		var retValue=window.showModalDialog("viewBackupLog.jsp",window,"dialogHeight:600px,dialogWidth:800px, status:0, edge:sunken");
 	}
 	</script>
 	
@@ -105,7 +142,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <tr>
 	<%
 		String filePath = (String)request.getAttribute("strFileFolder"); 
-		PDMUserList userList = (PDMUserList)request.getAttribute("userList");
+		PDMUserList userList = (PDMUserList)session.getAttribute("userList");
+		String buildName = (String)request.getAttribute("builderName");
 	%>
 	<td height="700px" colspan=4 width="1000px" valign="top">
 	<div id = "content">
@@ -116,11 +154,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<td width="100px">File Path:</td>
 			<td><%=filePath %></td>
 		</tr>
+		<tr>
+			<td width="100">Builder:</td>
+			<td><%=buildName %></td>
+		</tr>
 	</table>
 	<p>&nbsp;</p>
-	<input type="button" name="backup" id="backup" value="Backup" onclick="backup()">
+	<input type="button" name="setBuilder" id="setBuilder" value="SetBuilder" onclick="setBuilder()">
+	<input type="button" name="backup" id="backup" value="Backup Strategy" onclick="backup()">
+	<input type="button" name="tobackup" value="Backup Now" onclick="tobackup()">
+	<input type="button" name="backuplog" value="Backup Log" onclick="backupLog()">
 	<p>&nbsp;</p>
 	<input type="submit" name="user" value="Add User" height="30px" onclick="AddUserDialog()" />
+	<input type="submit" name="user" value="Remove User" height="30px" onclick="RemoveUserDialog()" />
 	<!-- 
 		 onclick="window.showModalDialog('addUser.jsp',window,'dialogHeight:500px,dialogWidth:400px, status:0, edge:sunken')" />
 	 -->

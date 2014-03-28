@@ -5,31 +5,15 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.prolambda.controller.ArtifactService;
 import com.prolambda.controller.BuildManagementService;
 import com.prolambda.controller.BuildService;
-import com.prolambda.controller.DependenceService;
-import com.prolambda.controller.FileService;
-import com.prolambda.controller.RepositoryService;
-import com.prolambda.model.Artifact;
-import com.prolambda.model.ArtifactList;
-import com.prolambda.model.Build;
-import com.prolambda.model.BuildList;
 import com.prolambda.model.ConfigFile;
-import com.prolambda.model.Dependence;
-import com.prolambda.model.DependenceList;
-import com.prolambda.model.Repository;
 
 public class BuildManagementServlet extends HttpServlet {
 
@@ -42,6 +26,7 @@ public class BuildManagementServlet extends HttpServlet {
 	private String workspace;
 	private String tempPath;
 	private String buildPath;
+	private String idsList;
 	public void init(){
 		strFileFolder = getServletContext().getInitParameter("strFileFolder");
 		workspace = getServletContext().getInitParameter("workspace");
@@ -60,7 +45,7 @@ public class BuildManagementServlet extends HttpServlet {
 		doPost(request,response);
 	}
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response)
+	public void doPost(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
 
 		response.setContentType("text/html");
@@ -91,16 +76,22 @@ public class BuildManagementServlet extends HttpServlet {
 		}else if("download".equals(flag)){
 			download(request,response);
 		}else if("build".equals(flag)){
-			build(request,response);
+			idsList = request.getParameter("ids");
+			Thread t = new Thread(new Runnable(){
+				public void run(){
+					
+					build();
+	               }
+			}); 
+			t.start();
 		}
 	}
 	
-	private void build(HttpServletRequest request,HttpServletResponse response){
-		String idList = request.getParameter("ids");
-		String[] ids = idList.split(",");
+	private void build(){
+		//String idList = request.getParameter("ids");
+		String[] ids = idsList.split(",");
 		BuildManagementService buildManSer = new BuildManagementService();
 		BuildService buildSer = new BuildService();
-		FileService fileSer = new FileService();
 		for(String id:ids){
 			if("".equals(id))
 				continue;
@@ -148,8 +139,6 @@ public class BuildManagementServlet extends HttpServlet {
 			*/
 		}
 	}
-	
-	
 	
 	private void download(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		String id = request.getParameter("id");
@@ -199,7 +188,6 @@ public class BuildManagementServlet extends HttpServlet {
 	    }
 	}
 
-	
 	public void delete(HttpServletRequest request,HttpServletResponse response){
 		String idList = request.getParameter("ids");
 		BuildManagementService buildSer = new BuildManagementService();
@@ -212,12 +200,12 @@ public class BuildManagementServlet extends HttpServlet {
 			if(cFile.exists()){
 				cFile.delete();
 			}
-			String name = file.getName();
-			int index = name.lastIndexOf(".");
-			if(index>0)
-				name = name.substring(0,index);
-			String ws = workspace + "\\" + name;
-			DeleteFolder(ws);
+			//String name = file.getName();
+			//int index = name.lastIndexOf(".");
+			//if(index>0)
+				//name = name.substring(0,index);
+			//String ws = workspace + "\\" + name;
+			//DeleteFolder(ws);
 			buildSer.deleteConfigFile(Integer.parseInt(id));
 		}
 	}

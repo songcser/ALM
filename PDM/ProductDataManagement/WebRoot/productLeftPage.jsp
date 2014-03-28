@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var obj = document.getElementById("categoryList");
 			for(var i=0;i<obj.options.length;i++){
 				if(obj.options[i].value == name){
-					name = name.replace("*"," ");
+					name = name.replace("%"," ");
 					var url = "ProductCategoryServlet?flag=delete&name="+name;
 					ajaxSend(url,true);
 					
@@ -208,7 +208,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<select id="categoryList" multiple size="30" style="width:220px" onchange="selectCategory()">
     		<%for(int i=0;i<proCateList.size();i++){
     		ProductCategory proCate = proCateList.get(i);
-    		String name = proCate.getName().replace(' ', '*');
+    		String name = proCate.getName().replace(' ', '$');
     		if(i==0){
     		%>
     		<option value=<%=name %> selected="selected"><%=proCate.getName() %></option>	

@@ -42,6 +42,7 @@ public class DependenceService {
 		
 		return depDAL.getById(id);
 	}
+	
 	public Boolean contains(Dependence dep){
 		DependenceDAL depDAL = new DependenceDAL();
 		return depDAL.contains(dep);

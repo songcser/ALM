@@ -25,7 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 		return;
 	 	}
 	  %>
-	var name = '<%=proCateList.get(0).getName().replace(" ", "*") %>';
+	var name = '<%=proCateList.get(0).getName().replace(" ", "%") %>';
 	//alert(name);
 	function selectChange(){
 		var obj = document.getElementById("categoryList");
@@ -44,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<select id="categoryList" style="width:200px" onchange="selectChange()">
     		<%
     			for(ProductCategory proCate:proCateList){ 
-    				String pName = proCate.getName().replace(" ", "*");
+    				String pName = proCate.getName().replace(" ", "%");
     		 %>
     		 <option value=<%=pName %>><%=proCate.getName() %></option>
     		 <%} %>

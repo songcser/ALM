@@ -14,7 +14,11 @@
 
 PDMBUILDER_API void writelog(string log,string workspace);
 
+PDMBUILDER_API void setWorkSpace(string workspace);
+
 PDMBUILDER_API void setWorkSpace(string workspace,string forceFlag);
+
+PDMBUILDER_API void setWorkSpace(string workspace,string forceFlag,string buildName,string buildPassword);
 
 //PDMBUILDER_API bool setConfigXML(string &xmlPath);
 PDMBUILDER_API bool setConfigXML(char *xmlPath);

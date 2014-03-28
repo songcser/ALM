@@ -93,7 +93,6 @@ public class BuildService {
 		return buildDAL.getIdByRepArt(repName, artName);
 	}
 	
-	
 	public Boolean contains(int artId,int num){
 		BuildDAL buildDAL = new BuildDAL();
 		return buildDAL.contains(artId,num);
@@ -153,6 +152,7 @@ public class BuildService {
 	
 	public int exeCmd(String buildPath,String strFileFolder,String tempPath,String workspace,String forceFlag,ConfigFile file){
 		FileService fileSer = new FileService();
+		UserService userSer = new UserService();
 		String filepath =strFileFolder +"/"+ file.getFileName();
 		File oldFile = new File(filepath);
 		File newFile = new File(tempPath+"\\"+file.getName());
@@ -178,7 +178,9 @@ public class BuildService {
 			//oldFile.renameTo(newFile);
 			filepath = newFile.getAbsolutePath();
 			filepath = filepath.replace("/", "\\");
-			String cmd = buildPath+" \""+ws+"\" \""+ filepath +"\" "+forceFlag;
+			String builderName = userSer.getBuilderName();
+			String builderPwd = userSer.getBuilderPassword();
+			String cmd = buildPath+" \""+ws+"\" \""+ filepath +"\" \""+forceFlag+"\" \""+builderName+"\" \""+builderPwd+"\"";
 			
 			//System.out.println("cmd: "+cmd);
 			int exitValue = exeCmd(cmd);

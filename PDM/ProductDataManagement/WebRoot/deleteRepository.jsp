@@ -21,13 +21,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	-->
 	<script type="text/javascript">
 	<%RepositoryList repList = (RepositoryList)session.getAttribute("repositorylist"); %>
-	var name = '<%=repList.get(0).getName() %>';
+	var name = '<%=repList.get(0).getName().replace(' ', '%') %>';
 	
 	function selectChange(){
 		var obj = document.getElementById("repositoryList");
 		name = obj.options[obj.selectedIndex].value;
 	}
 	function sendTo(){
+		//alert(name);
 		window.returnValue = name;
 		window.close();
 	}
@@ -40,8 +41,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<select id="repositoryList" style="width:200px" onchange="selectChange()">
     		<%
     			for(Repository rep:repList){ 
+    				String cName = rep.getName();
+    				cName = cName.replace(" ", "%");
     		 %>
-    		 <option value=<%=rep.getName() %>><%=rep.getName() %></option>
+    		 <option value=<%=cName %>><%=rep.getName() %></option>
     		 <%} %>
     	</select>
 

@@ -6,16 +6,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.TimerTask;
 
 import javax.servlet.ServletContext;
 
 import com.prolambda.controller.BuildManagementService;
 import com.prolambda.controller.BuildService;
-import com.prolambda.controller.FileService;
 import com.prolambda.model.ConfigFile;
 import com.prolambda.model.ConfigFileList;
 
@@ -41,7 +37,7 @@ public class BuilderTask  extends TimerTask{
 			file.mkdirs();
 		}
 		//this.buildPath = this.buildPath.replace("\\", "/");
-		System.out.println("start");
+		//System.out.println("start");
 	}
 	
 	public BuilderTask(ServletContext context,String path){
@@ -53,7 +49,7 @@ public class BuilderTask  extends TimerTask{
 		if(!isRunning){
 			
 			isRunning = true;
-			System.out.println("Running");
+			//System.out.println("Running");
 			//FileService fileSer = new FileService();
 			BuildService buildService = new BuildService();
 			BuildManagementService buildSer = new BuildManagementService();
@@ -108,9 +104,9 @@ public class BuilderTask  extends TimerTask{
 			delAllFile(tempPath);
 			
 			isRunning = false;
-			System.out.println("stop");
+			//System.out.println("stop");
 		}else{
-			System.out.println("not stop");
+			System.out.println("builder not stop");
 		}
 	}
 

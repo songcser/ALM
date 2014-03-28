@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Projects>
+	<Project>
+		<Id>1</Id>
+		<Name>test1</Name>
+		
+		<Export>
+			<SourceCode>
+				<Url>http://192.168.99.16:8081/svn/test/branches/3.0/AutoCompile</Url>
+				<Version>123</Version>
+				<LocalPath>Codes</LocalPath>
+			</SourceCode>
+			<Dependences>
+				<Dependence>				
+					<Server>http://loaclhost:8080/ProductDataManagement/DownloadServlet</Server>
+					<Flag>build</Flag>
+					<Repository>P-EF</Repository>
+					<Name>test2</Name>
+					<Version>2</Version>					
+					<Path>Win32/Release</Path>				
+					<LocalPath>Library/Test2</LocalPath>							
+				</Dependence>
+			</Dependences>
+		</Export>
+		
+		<Build>
+			<Process>
+								
+				<BuildStep>
+					<Name>Build X64</Name>
+					<Program>c:\Builder\MSBuild.exe</Program>
+					<Options>Codes/AutoCompile/AutoCompile.sln Release X64</Options>
+				</BuildStep>
+				<BuildStep>
+					<Name>Build X32</Name>
+					<Program>c:\Builder\MSBuild.exe</Program>
+					<Options>Codes/AutoCompile/AutoCompile.sln Release X86</Options>
+				</BuildStep>				
+				
+			</Process>
+		</Build>
+		
+		<Test></Test>
+		
+		<Import>
+			<ImportStep>
+				<Name>Upload Document</Name>
+				<Url>http://loaclhost:8080/ProductDataManagement/BuildUploadServlet<Url>
+				<ImportItem>
+					<Source>Build/Bin/Release</Source>
+					<Target>Bin/Release</Target>
+				</ImportItem>
+			</ImportStep>				
+			<ImportStep>
+				<Name>Upload Document</Name>
+				<Url>http://loaclhost:8080/ProductDataManagement/BuildUploadServlet<Url>
+				<ImportItem>
+					<Source>Build/Bin/Release</Source>
+					<Target>Bin/Release</Target>
+				</ImportItem>
+			</ImportStep>
+		</Import>
+		
+		<Publish>
+			<Url>http://loaclhost:8080/ProductDataManagement/UploadFileServ<Url>
+			<Category>fatigue</Category>
+			<Component>P-EF</Component>
+			<Verison>1.0</Version>
+			<ImportItem>
+				<Source>Build/Bin/Release/</Source>
+				<Target>Bin/Release</Target>
+			</ImportItem>
+		</Publish>
+		
+		<Clean>
+			<CleanStep>Clean</CleanStep>
+		</Clean>
+		
+	</Project>
+</Projects>

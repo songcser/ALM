@@ -25,12 +25,7 @@ public class ArtifactDAL {
 		try {
 			conn = db.getConn();
 			st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			/*rs = st.executeQuery("select * from t_repository");
-			String countSql = "select count(id) from t_artifact";
-			rs = st.executeQuery(countSql);
-			String cou = rs.getString(1);
-			String id = Integer.parseInt(cou)+"";
-			*/
+			
 			String name = art.getName();
 			int count = art.getCount();
 			Timestamp started = art.getStarted();

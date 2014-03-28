@@ -8,11 +8,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.TimerTask;
 import java.util.zip.ZipOutputStream;
 
 import javax.servlet.ServletContext;
+
+import com.prolambda.dal.BackupDAL;
+import com.prolambda.model.BackupLog;
 
 public class BackupService extends TimerTask{
 
@@ -22,10 +29,13 @@ public class BackupService extends TimerTask{
 	String backuppath;
 	String sourceDir;
 	String type;
+	String xmlPath;
+	int count = 0;
+	
 	//String xmlPath;
 	FileService fileSer = null;
 	public BackupService(ServletContext context){
-		String xmlPath = context.getRealPath("/")+"WEB-INF/backup.xml";
+		xmlPath = context.getRealPath("/")+"WEB-INF/backup.xml";
 		dumpCmd = context.getInitParameter("mysqldumpCmd");
 		//outputFile = context.getInitParameter("datebaseBackup");
 		//fileBackup = context.getInitParameter("fileBackup");
@@ -42,9 +52,11 @@ public class BackupService extends TimerTask{
 		if(!file.exists()){
 			file.mkdirs();
 		}
+		
 	}
 	public BackupService(ServletContext context,String path,String type){
-		System.out.println("BackuService--->");
+		xmlPath = context.getRealPath("/")+"WEB-INF/backup.xml";
+		//System.out.println("BackuService--->");
 		//xmlPath = context.getRealPath("/")+"WEB-INF/backup.xml";
 		dumpCmd = context.getInitParameter("mysqldumpCmd");
 		//outputFile = context.getInitParameter("datebaseBackup");
@@ -55,6 +67,7 @@ public class BackupService extends TimerTask{
 		//backuppath = fileSer.getContextParam("path");
 		backuppath = path;
 		this.type = type;
+		
 		//int index = path.lastIndexOf("/");
 		//String temp = path.substring(0,index);
 		//System.out.println(path);
@@ -67,30 +80,69 @@ public class BackupService extends TimerTask{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		//String xmlPath = context.getRealPath("/")+"WEB-INF/backup.xml";
 		
+		FileService fileSer = new FileService(xmlPath);
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+		String time = df.format(new Date());
+		File file = new File(backuppath+"/"+time);
+		if(!file.exists()){
+			file.mkdirs();
+		}
+		File path = new File(backuppath);
+		File[] files = path.listFiles();
+		//System.out.println("Length:"+files.length);
+		//System.out.println("Count:"+count);
+		int copy = Integer.parseInt(fileSer.getCopyCount());
+		if(files.length>copy&&copy!=0){
+			Arrays.sort(files, new FileService.CompratorByLastModified());
+			//System.out.println("File:"+files[0].getAbsolutePath());
+			fileSer.delFolder(files[0].getAbsolutePath());
+		}
+		Calendar calendar = Calendar.getInstance();
+		Date date = calendar.getTime();
+		
+		fileSer.setLastTime(date.toString());
+		String startTime = "";
+		String endTime = "";
+		String status = "success";
+		String log = "";
+		//String backupStr = backuppath+"/"+time+"/backupfile.zip";
+		df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
-			//String type = fileSer.getContextParam("type");
-			if("Database|File".equals(type)){
-				backupDataBase();
-				backupFile();
+			startTime = df.format(new Date());
+			if("File|Database".equals(type)){
+				
+				log += backupDataBase(time);
+				
+				log += backupFile(time);
 			}else if("Database".equals(type)){
-				backupDataBase();
+				log += backupDataBase(time);
 			}else if("File".equals(type)){
-				backupFile();
+				log += backupFile(time);
 			}
-			
+			endTime = df.format(new Date());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			status = "error";
 			e.printStackTrace();
+		} finally{
+			fileSer.doc2Xml(xmlPath);
+			BackupLog blog = new BackupLog();
+			blog.setStartTime(startTime);
+			blog.setEndTime(endTime);
+			blog.setStatus(status);
+			blog.setLog(log);
+			BackupDAL backupDAL = new BackupDAL();
+			backupDAL.create(blog);
 		}
 	}
 	
-	public void backupFile() throws IOException{
+	public String backupFile(String time) throws IOException{
 		FileService fileSer = new FileService();
-		
+		StringBuilder log = new StringBuilder("Start Backup File \n");
 		File sourceFile = new File(sourceDir);
 		File[] files = sourceFile.listFiles();
-		
+		log.append("From:").append(sourceFile.getAbsolutePath());
 		ArrayList<File> input = new ArrayList<File>();
 		ArrayList<String> name = new ArrayList<String>();
 		for(int i=0;i<files.length;i++){
@@ -98,7 +150,9 @@ public class BackupService extends TimerTask{
 			input.add(file);
 			name.add(file.getName());
 		}
-		String backupStr = backuppath+"/backupfile.zip";
+		String backupStr = backuppath+"/"+time+"/backupfile.zip";
+		log.append(" \nTo:").append(backupStr);
+		//System.out.println("Str:"+backupStr);
 		File backupFile = new File(backupStr);
 		if(backupFile.exists()){
 			backupFile.delete();
@@ -124,13 +178,17 @@ public class BackupService extends TimerTask{
 		if(null != fos){
 			fos.close();
 		}
+		log.append("\nEnd Backup\n");
+		return log.toString();
 	}
 	
-	public void backupDataBase(){
+	public String backupDataBase(String time){
+		StringBuilder log = new StringBuilder("Start Backup Database\n");
 		try {     
             Runtime rt = Runtime.getRuntime();     
     
             // 调用 mysql 的 cmd:     
+            log.append("From: db_pdm\n");
             Process child = rt.exec("\""+dumpCmd +"\" -uroot -proot db_pdm");// 设置导出编码为utf8。这里必须是utf8     
                 
             // 把进程执行中的控制台输出信息写入.sql文件，即生成了备份文件。注：如果不对控制台信息进行读出，则会导致进程堵塞无法运行     
@@ -148,7 +206,8 @@ public class BackupService extends TimerTask{
             }     
             outStr = sb.toString();     
                 
-            String backupStr = backuppath+"/DBbackup.sql";
+            String backupStr = backuppath+"/"+time+"/DBbackup.sql";
+            log.append("To: ").append(backupStr);
             // 要用来做导入用的sql目标文件：     
             FileOutputStream fout = new FileOutputStream(backupStr);     
             OutputStreamWriter writer = new OutputStreamWriter(fout, "utf8");     
@@ -163,10 +222,12 @@ public class BackupService extends TimerTask{
             writer.close();     
             fout.close();     
     
-            System.out.println("/* Output OK! */");     
+            //System.out.println("/* Output OK! */");     
     
         } catch (Exception e) {     
             e.printStackTrace();     
         }
+		log.append("\nEnd Backup");
+		return log.toString();
 	}
 }

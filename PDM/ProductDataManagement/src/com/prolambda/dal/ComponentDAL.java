@@ -57,12 +57,24 @@ public class ComponentDAL {
 		Database db = new Database();
 		Connection conn = null;
 		Statement st = null;
-		//ResultSet rs = null;
+		ResultSet rs = null;
 		try {
 			conn = db.getConn();
 			st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			String sql = "delete from t_component where id = '"+id+"'";
+			int categoryid = 0;
+			String sql = "select categoryid from t_component where id = '"+id+"'";
+			rs = st.executeQuery(sql);
+			if(rs.next()){
+				categoryid = rs.getInt(1);
+			}
+			sql = "delete from t_component where id = '"+id+"'";
 			int i = st.executeUpdate(sql);
+			if(i!=1)
+				return false;
+			
+			sql = "update t_ccategory set componentCount = componentCount - 1 where id = '"+categoryid+"'";
+			
+			i=st.executeUpdate(sql);
 			if(i!=1)
 				return false;
 			
@@ -72,7 +84,7 @@ public class ComponentDAL {
 		}finally{
 			   
 			try{
-				   //rs.close();
+				   rs.close();
 				   st.close();
 				   conn.close();
 			}catch(Exception ex){

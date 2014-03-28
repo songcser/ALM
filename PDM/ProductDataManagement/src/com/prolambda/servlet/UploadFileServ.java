@@ -57,7 +57,7 @@ public class UploadFileServ extends HttpServlet {
 			PrintWriter out = resp.getWriter(); 
 			strRet = "";
 			System.out.println("Upload");
-			final long MAX_SIZE = 10 * 1024 * 1024;// 设置上传文件最大为 10M  
+			final long MAX_SIZE = 100 * 1024 * 1024;// 设置上传文件最大为 10M  
 			
 			DiskFileItemFactory dfif = new DiskFileItemFactory();  
 			dfif.setSizeThreshold(4096);// 设置上传文件时用于临时存放文件的内存大小,这里是4K.多于的部分将临时存在硬盘  

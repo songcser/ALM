@@ -295,6 +295,7 @@ public class DependenceDAL {
 		}
 		return dep;
 	}
+	
 	public Boolean contains(Dependence dep){
 		Database db = new Database();
 		Connection conn = null;

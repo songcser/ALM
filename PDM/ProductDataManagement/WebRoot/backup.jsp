@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'backup.jsp' starting page</title>
+    <title>Backup</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -32,6 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		//window.close();
 	}
 	function cancle(){
+		window.returnValue = "value";
 		window.close();
 	}
 	
@@ -152,34 +153,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	
     	<p></p>
     	<div style="border-style:inset;">
+    	<%
+    		String status = (String)session.getAttribute("status");
+    		String start = (String)session.getAttribute("startTime");
+    		String last = (String)session.getAttribute("lastTime");
+    		String bpath = (String)session.getAttribute("backupPath");
+    		String rule = (String)session.getAttribute("backupRule");
+    	 %>
     	<table border="1" width="100%">
     		<tr>
-    			<td>status:</td>
-    			<td>running/stopped</td>
+    			<td width="100px">status:</td>
+    			<td><%=status %></td>
     		</tr>
     		<tr>
-    			<td>start time:</td>
-    			<td>2013-7-30 00:12:00</td>
+    			<td width="100px">start time:</td>
+    			<td><%=start %></td>
     		</tr>
     		<tr>
-    			<td>last time:</td>
-    			<td>2013-8-03 00:12:00</td>
+    			<td width="100px">last time:</td>
+    			<td><%=last %></td>
     		</tr>
     		<tr>
-    			<td>backup path:</td>
-    			<td>C:\ALM\PDM\Backup</td>
+    			<td width="100px">backup path:</td>
+    			<td><%=bpath %></td>
     		</tr>
     		<tr>
-    			<td>backup rule:</td>
-    			<td>every 3 day,On 00:12:00</td>
+    			<td width="100px">backup rule:</td>
+    			<td><%=rule %></td>
     		</tr>
-    		<tr>
-    			<td><input type="button" value="show log"></td>
     	</table>
     	</div>
     	<p></p>
     	<input type="submit" value="Ok">
     	<input type="submit" value="Cancle" onclick="cancle()">
+    	<iframe name='hidden_frame' id="hidden_frame" style='display:none'></iframe>
     	</form>
     	
     </div>

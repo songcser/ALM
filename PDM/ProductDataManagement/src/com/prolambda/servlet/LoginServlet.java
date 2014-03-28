@@ -94,17 +94,36 @@ public class LoginServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		if(aDirectory.validate()){
 			UserList userList = aDirectory.getUserList("OU=pro-lambda");
+			//System.out.println("Length:"+userList.size());
+			String temp =name + "@pl.local";
 			for(User user : userList){
-				if(name.equals(user.getUsername())&&user.getPassword().equals(password)){
+				//System.out.println("Name:"+user.getUsername());
+				if(temp.equals(user.getUsername())){
 					UserService userServ = new UserService();
-					if(!userServ.isExist(user.getId())){
-						out.print("<script language='javascript'>alert('username or password is error');window.location.href='index.jsp';</script>");
-						return false;
+					//out.print("<script language='javascript'>alert('name exist');</script>");
+					//System.out.println("Name:"+user.getUsername());
+					///System.out.println("UserID:"+user.getId());
+					if(!userServ.addFirstUser(name, user.getId())){
+						//out.print("<script language='javascript'>alert('not first user');</script>");
+						///System.out.println("not first user");
+						if(!userServ.isExist(user.getId())){
+							out.print("<script language='javascript'>alert('username or password is error');window.location.href='index.jsp';</script>");
+							return false;
+						}
+						else{
+							//out.print("<script language='javascript'>alert('user exist');</script>");
+							//System.out.println("user exist");
+							return true;
+						}
+						
 					}
+					//out.print("<script language='javascript'>alert('first user');</script>");
+					//System.out.println("first user");
+					return true;
 				}
 			}
-			
-			return true;
+			//out.print("<script language='javascript'>alert('no name exist');</script>");
+			return false;
 		}
 		else{
 			out.print("<script language='javascript'>alert('username or password is error');window.location.href='index.jsp';</script>");

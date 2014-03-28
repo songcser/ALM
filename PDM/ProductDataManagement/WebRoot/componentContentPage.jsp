@@ -112,6 +112,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		//alert(retValue);
 		if(retValue){
 			var name = retValue;
+			name = name.replaceAll("%"," ");
 			var categoryName = "<%=comCate.getName() %>";
 			var url = "ComponentServlet?flag=delete&categoryName="+categoryName+"&componentName="+name;
 			ajaxSend(url,true);

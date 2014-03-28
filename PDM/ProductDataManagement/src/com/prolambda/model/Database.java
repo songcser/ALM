@@ -113,11 +113,10 @@ public class Database {
 				"result varchar(10)," +
 				"sourcepath varchar(100)," +
 				"sourceversion varchar(10)," +
-				"environment varchar(100)," +
+				"environment varchar(1024)," +
 				"log varchar(50)," +
 				"artifactid int not null," +
 				"primary key(id))";
-		
 		Statement state = null;
 		Connection conn = null;
 		try {
@@ -581,6 +580,62 @@ public class Database {
 		}
 	}
 	
+	public void createBuilderTable(){
+		String proComSql = "create table t_builder(id int not null auto_increment," +
+				"name varchar(100) not null, " +
+				"password varchar(100) not null," +
+				"primary key(id))";
+		
+		Statement state = null;
+		Connection conn = null;
+		try {
+			conn = getConn();
+			state = conn.createStatement();
+			
+			state.executeUpdate(proComSql);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally{
+			   try{
+				   state.close();
+				   conn.close();
+			   }catch(Exception ex){
+				   ex.printStackTrace();
+			   }
+		
+		}
+	}
+	
+	public void createBackupLogTable(){
+		String backupLogSql = "create table t_backuplog(id int not null auto_increment," +
+				"startTime timestamp not null DEFAULT CURRENT_TIMESTAMP, " +
+				"endTime timestamp not null ," +
+				"status varchar(10) not null,"+
+				"log varchar(512) not null,"+
+				"primary key(id))";
+		
+		Statement state = null;
+		Connection conn = null;
+		try {
+			conn = getConn();
+			state = conn.createStatement();
+			
+			state.executeUpdate(backupLogSql);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally{
+			   try{
+				   state.close();
+				   conn.close();
+			   }catch(Exception ex){
+				   ex.printStackTrace();
+			   }
+		
+		}
+	}
+	
 	public void createTables(){
 		//HashMap<String, String> table = new HashMap<String, String>();
 		try {
@@ -648,6 +703,12 @@ public class Database {
 			if(table.indexOf("t_configfile")==-1){
 				createConfigFileTable();
 			}
+			if(table.indexOf("t_builder")==-1){
+				createBuilderTable();
+			}
+			if(table.indexOf("t_backuplog")==-1){
+				createBackupLogTable();
+			}
 			
 			
 		} catch (SQLException e) {
@@ -683,7 +744,7 @@ public class Database {
 				"result varchar(10)," +
 				"sourcepath varchar(100)," +
 				"sourceversion varchar(10)," +
-				"environment varchar(100)," +
+				"environment varchar(1024)," +
 				"log varchar(50)," +
 				"artifactid int," +
 				"primary key(id))";
@@ -726,9 +787,9 @@ public class Database {
 				"description varchar(200)," +
 				"created timestamp not null DEFAULT CURRENT_TIMESTAMP," +
 				"modified timestamp," +
-				"state int not null default 0,"+
-				"lastVersion varchar(20),"+
+				"lastversion varchar(20),"+
 				"categoryid int not null," +
+				"state int not null default 0,"+
 				"primary key(id))";
 		
 		String productVersionTableSql = "create table t_pversion(id int not null auto_increment," +
@@ -801,6 +862,18 @@ public class Database {
 				"fileid int not null," +
 				"primary key(id))";
 		
+		String builderSql = "create table t_builder(id int not null auto_increment," +
+				"name varchar(100) not null, " +
+				"password varchar(100) not null," +
+				"primary key(id))";
+		
+		String backupLogSql = "create table t_backuplog(id int not null auto_increment," +
+				"startTime timestamp not null DEFAULT CURRENT_TIMESTAMP, " +
+				"endTime timestamp not null DEFAULT CURRENT_TIMESTAMP," +
+				"status varchar(10) not null"+
+				"log varchar(512) not null"+
+				"primary key(id))";
+		
 		Statement state = null;
 		Connection conn = null;
 		try {
@@ -825,6 +898,8 @@ public class Database {
 			state.executeUpdate(productTreeSql);
 			state.executeUpdate(issFileSql);
 			state.executeUpdate(configFileTableSql);
+			state.executeUpdate(builderSql);
+			state.executeUpdate(backupLogSql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

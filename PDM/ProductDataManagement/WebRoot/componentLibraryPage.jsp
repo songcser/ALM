@@ -253,6 +253,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          	i=i-1;
 		}
 		fileId = 0;
+		
 	}
 	
 	function callback(msg){

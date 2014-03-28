@@ -1,5 +1,6 @@
 package com.prolambda.servlet;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import com.prolambda.controller.BuildManagementService;
 import com.prolambda.controller.ComponentCategoryService;
 import com.prolambda.controller.ComponentService;
+import com.prolambda.controller.FileService;
 import com.prolambda.controller.ProductCategoryService;
 import com.prolambda.controller.ProductService;
 import com.prolambda.controller.UserService;
@@ -104,12 +106,33 @@ public class PDMServlet extends HttpServlet {
 		}
 		else if(value.equals("SystemManagement")){
 			String strFileFolder = getServletContext().getInitParameter("strFileFolder");
-			
+			String xmlPath = getServletContext().getRealPath("/")+"WEB-INF/backup.xml";
+			HttpSession session = request.getSession(true);
 			
 			UserService userSer = new UserService();
 			PDMUserList userList = userSer.getUser();
+			File file = new File(xmlPath);
+			String status = "";
+			String last = "";
+			String start = "";
+			String path = "";
+			String rule = "";
+			if(file.exists()){
+				FileService fileSer = new FileService(xmlPath);
+				status = fileSer.getStatus();
+				last = fileSer.getLastTime();
+				start = fileSer.getStartTime();
+				path = fileSer.getBackupPath();
+				rule = fileSer.getBackupRule();
+			}
 			
-			request.setAttribute("userList", userList);
+			session.setAttribute("status", status);
+			session.setAttribute("lastTime", last);
+			session.setAttribute("startTime", start);
+			session.setAttribute("backupPath", path);
+			session.setAttribute("backupRule", rule);
+			request.setAttribute("builderName", userSer.getBuilderName());
+			session.setAttribute("userList", userList);
 			request.setAttribute("strFileFolder", strFileFolder);
 			request.getRequestDispatcher("systemManagementPage.jsp").forward(request, response);
 		}

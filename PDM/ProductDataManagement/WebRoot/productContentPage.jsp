@@ -68,7 +68,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function createDialog(){
 		var retValue=window.showModalDialog("createProductPage.jsp",window,"dialogHeight:250px,dialogWidth:400px, status:0, edge:sunken");
 		
-		
 		if(retValue)
 		{
 			
@@ -121,8 +120,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		//alert(retValue);
 		if(retValue){
 			var name = retValue;
+			name = name.replaceAll("%"," ");
 			var categoryName = "<%=proCate.getName() %>";
 			var url = "ProductServlet?flag=delete&categoryName="+categoryName+"&productName="+name;
+			//alert(url);
 			ajaxSend(url,true);
 			//alert(retStr);
 			removeRow(name);

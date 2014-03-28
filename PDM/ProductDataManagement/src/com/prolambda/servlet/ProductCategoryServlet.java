@@ -159,7 +159,8 @@ public class ProductCategoryServlet extends HttpServlet {
 	
 	public void select(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		String categoryName = request.getParameter("categoryName");
-		String name = categoryName.replace('*', ' ');
+		//System.out.println("Name:"+categoryName);
+		String name = categoryName.replace('$', ' ');
 		PrintWriter out = response.getWriter();
 		ProductCategoryService proCateSer = new ProductCategoryService();
 		ProductCategory proCate = proCateSer.getByName(name);

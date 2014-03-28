@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 			
 			fUnlock.submit();
-			window.close();
+			//window.close();
 		}
 		
 		function CancelUnlocks()

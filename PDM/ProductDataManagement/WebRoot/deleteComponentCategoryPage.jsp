@@ -24,7 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 	if(comCateList.size()<1)
 	 		return;
 	  %>
-	var name = '<%=comCateList.get(0).getName().replace(' ', '*') %>';
+	var name = '<%=comCateList.get(0).getName().replace(' ', '%') %>';
 	//alert(name);
 	function selectChange(){
 		var obj = document.getElementById("categoryList");
@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<%
     			for(ComponentCategory comCate:comCateList){ 
     				String cName = comCate.getName();
-    				cName = cName.replace(" ", "*");
+    				cName = cName.replace(" ", "%");
     				//System.out.println(cName);
     		 %>
     		 <option value=<%=cName %>><%=comCate.getName() %></option>

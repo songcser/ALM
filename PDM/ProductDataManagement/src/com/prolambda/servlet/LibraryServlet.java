@@ -67,8 +67,6 @@ public class LibraryServlet extends HttpServlet {
 		
 	    ServletOutputStream out = response.getOutputStream();
 	    try{
-	    	
-			
 			response.setHeader("Content-disposition", "attachment;filename="+zipName+".zip");
 			bos = new BufferedOutputStream(out);
 					//	fos = new FileOutputStream(zipFile);
@@ -89,17 +87,7 @@ public class LibraryServlet extends HttpServlet {
 				//System.out.println("file path"+sourceFile.getAbsolutePath());
 				if(sourceFile.exists()==false){
 					continue;
-					/*
-					 try {  
-		                    if(null != bos) bos.close();  
-		                    if(null != zos) zos.close();  
-		                } catch (IOException e) {  
-		                    e.printStackTrace();  
-		                    throw new RuntimeException(e);  
-		                }
-		                */
-					 //return;
-					 //out.println(">>>>>> 待压缩的文件目录：" + lib.getFileName() + " 不存在. <<<<<<");
+
 				}else{
 					ZipEntry zipEntry=new ZipEntry(lib.getName());
 					zos.putNextEntry(zipEntry);  

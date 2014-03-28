@@ -2,13 +2,12 @@ package com.prolambda.controller;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -21,8 +20,10 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 public class FileService {
@@ -160,6 +161,17 @@ public class FileService {
     	return document;
     }
     
+    public Document writeXML(){
+    	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance(); 
+    	  DocumentBuilder builder = null; 
+    	  try { 
+    	   builder = dbf.newDocumentBuilder(); 
+    	  } catch (Exception e) { 
+    	  } 
+    	  document = builder.newDocument(); 
+    	  return document;
+    }
+    
     public String getContextParam(String paramName){
     	//Document document = readXML(xmlPath);
     	
@@ -192,6 +204,42 @@ public class FileService {
     	}
     	//doc2Xml(document,xmlPath);
     	return null;
+    }
+    
+    public String getStatus(){
+    	NodeList nodes = document.getElementsByTagName("Status");
+    	Node node = nodes.item(0);
+    	return node.getFirstChild().getNodeValue();
+    }
+    
+    public String getStartTime(){
+    	NodeList nodes = document.getElementsByTagName("StartTime");
+    	Node node = nodes.item(0);
+    	return node.getFirstChild().getNodeValue();
+    }
+    
+    public String getLastTime(){
+    	NodeList nodes = document.getElementsByTagName("LastTime");
+    	Node node = nodes.item(0);
+    	return node.getFirstChild().getNodeValue();
+    }
+    
+    public String getBackupPath(){
+    	NodeList nodes = document.getElementsByTagName("BackupPath");
+    	Node node = nodes.item(0);
+    	return node.getFirstChild().getNodeValue();
+    }
+    
+    public String getBackupRule(){
+    	NodeList nodes = document.getElementsByTagName("BackupRule");
+    	Node node = nodes.item(0);
+    	return node.getFirstChild().getNodeValue();
+    }
+    
+    public String getCopyCount(){
+    	NodeList nodes = document.getElementsByTagName("CopyCount");
+    	Node node = nodes.item(0);
+    	return node.getFirstChild().getNodeValue();
     }
     
     public void setContextParam(String paramName,String paramValue){
@@ -243,5 +291,74 @@ public class FileService {
         //return flag;
     }
     
+    public void setLastTime(String time){
+    	NodeList nodes = document.getElementsByTagName("LastTime");
+    	Node node = nodes.item(0);
+    	//String value = node.getFirstChild().getNodeValue();
+    	//System.out.println("Value:"+value);
+    	node.getFirstChild().setNodeValue(time);
+    }
     
+    public void setStatus(String status){
+    	NodeList nodes = document.getElementsByTagName("Status");
+    	Node node = nodes.item(0);
+    	//String value = node.getFirstChild().getNodeValue();
+    	//System.out.println("Value:"+value);
+    	node.getFirstChild().setNodeValue(status);
+    	//value = node.getFirstChild().getNodeValue();
+    	//System.out.println("Value:"+value);
+    }
+    
+    public void writeBackupXML(String status,String start,String last,String path,String rule,String count){
+    	Element root = document.createElement("Backup");
+    	document.appendChild(root);
+    	
+    	Element statusEle = document.createElement("Status");
+    	root.appendChild(statusEle);
+    	Text tstatus = document.createTextNode(status);
+    	statusEle.appendChild(tstatus);
+    	
+    	Element startEle = document.createElement("StartTime");
+    	root.appendChild(startEle);
+    	Text tstart = document.createTextNode(start);
+    	startEle.appendChild(tstart);
+    	
+    	Element lastEle = document.createElement("LastTime");
+    	root.appendChild(lastEle);
+    	Text tlast = document.createTextNode(last);
+    	lastEle.appendChild(tlast);
+    	
+    	Element pathEle = document.createElement("BackupPath");
+    	root.appendChild(pathEle);
+    	Text tpath = document.createTextNode(path);
+    	pathEle.appendChild(tpath);
+    	
+    	Element ruleEle = document.createElement("BackupRule");
+    	root.appendChild(ruleEle);
+    	Text trule = document.createTextNode(rule);
+    	ruleEle.appendChild(trule);
+    	
+    	Element copyEle = document.createElement("CopyCount");
+    	root.appendChild(copyEle);
+    	Text tcopy = document.createTextNode(count);
+    	copyEle.appendChild(tcopy);
+    }
+
+    static class CompratorByLastModified implements Comparator<File>  
+    {  
+    	public int compare(File f1, File f2) {  
+      long diff = f1.lastModified()-f2.lastModified();  
+          if(diff>0)  
+            return 1;  
+          else if(diff==0)  
+            return 0;  
+          else  
+            return -1;  
+          }  
+   
+    	public boolean equals(Object obj){  
+      
+    		return true;  
+    	}  
+    }
 }

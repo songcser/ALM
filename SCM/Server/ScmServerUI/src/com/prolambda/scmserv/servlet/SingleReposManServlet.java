@@ -174,7 +174,7 @@ public class SingleReposManServlet extends HttpServlet
 			return;
 		}
 		else if(action != null && action.equals("delete")){
-			System.out.println("Delete");
+			//System.out.println("Delete");
 			doDelete(request, response);
 			
 			return;

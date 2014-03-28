@@ -401,10 +401,10 @@ public class PackageFileServlet extends HttpServlet {
 				lib.setProductId(Integer.parseInt(versionId));
 				lib.setFileName(setupGuidName);
 				//libSer.create(lib);
-				System.out.println("issFileId:"+libId);
+				//System.out.println("issFileId:"+libId);
 				if(pVerSer.containsIss(libId)){
 					int fileId = pVerSer.getFileByIss(libId);
-					System.out.println("libId:"+libId+" fileId:"+fileId);
+					//System.out.println("libId:"+libId+" fileId:"+fileId);
 					if(fileId!=-1){
 						Library oldLib = libSer.getById(fileId);
 						File oldFile = new File(strFileFolder+"/"+oldLib.getFileName());
@@ -416,7 +416,7 @@ public class PackageFileServlet extends HttpServlet {
 						strRet += "<a href=\"LibraryServlet?flag=download&libId="+libId+"\">"+filename+"</a>" +
 								"<a href=\"LibraryServlet?flag=download&libId="+fileId+"\">"+setupName+"</a>";
 					}else {
-						System.out.println("create setupFile:");
+						//System.out.println("create setupFile:");
 						libSer.create(lib);
 						fileId = libSer.getIdByFileName(setupGuidName);
 						//System.out.println("libId:"+libId+" fileId:"+fileId);

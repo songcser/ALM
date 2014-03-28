@@ -100,8 +100,6 @@ function public_Contents(contents1, contents2){
 	t2Contents.innerHTML = contents2;
 	init();
 }
-
-
 //默认显示选项卡1
 
 function init(id){
@@ -211,7 +209,6 @@ function getClass(tagName,className) //获得标签名为tagName,类名className
 	}
 }
 
-
 function ajaxSend(url,flag){
 	
 	var retStr = '';
@@ -312,4 +309,10 @@ function removeRow(name){
 		//alert(proName);
 	}
 	goPage(curPage,5);
+}
+String.prototype.replaceAll = stringReplaceAll;
+
+function stringReplaceAll(AFindText,ARepText){
+	var raRegExp = new RegExp(AFindText,"g");
+	return this.replace(raRegExp,ARepText)
 }

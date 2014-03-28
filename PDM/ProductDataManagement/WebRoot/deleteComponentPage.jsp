@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	-->
 	<script type="text/javascript">
 	<%ComponentList comList = (ComponentList)session.getAttribute("componentList"); %>
-	var name = '<%=comList.get(0).getName() %>';
+	var name = '<%=comList.get(0).getName().replace(" ","%") %>';
 	
 	function selectChange(){
 		var obj = document.getElementById("componentList");
@@ -39,9 +39,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     	<select id="componentList" style="width:200px" onchange="selectChange()">
     		<%
-    			for(Component com:comList){ 
+    			for(Component com:comList){
+    				String cName = com.getName();
+    				cName = cName.replace(" ", "%");
     		 %>
-    		 <option value=<%=com.getName() %>><%=com.getName() %></option>
+    		 <option value=<%=cName %>><%=com.getName() %></option>
     		 <%} %>
     	</select>
 

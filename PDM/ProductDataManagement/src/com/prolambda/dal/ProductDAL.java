@@ -32,7 +32,7 @@ public class ProductDAL {
 			String lastVersion = pro.getLastVersion();
 			int categoryId = pro.getCategoryId();
 			int state = pro.getState();
-			String sql = "insert into t_product(name,description,created,modified,lastversion,categoryId,state)" +
+			String sql = "insert into t_product(name,description,created,modified,lastVersion,categoryid,state)" +
 					" values('"+name+"','"+description+"','"+created+"','"+modified+"','"+lastVersion+"','"+categoryId+"','"+state+"')";
 			int i = st.executeUpdate(sql);
 			if(i!=1)
@@ -64,16 +64,24 @@ public class ProductDAL {
 		Database db = new Database();
 		Connection conn = null;
 		Statement st = null;
-		//ResultSet rs = null;
+		ResultSet rs = null;
 		try {
 			conn = db.getConn();
 			st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			String sql = "delete from t_product where id = '"+id+"'";
+			
+			int categoryid = 0;
+			String sql = "select categoryid from t_product where id = '"+id+"'";
+			rs = st.executeQuery(sql);
+			if(rs.next()){
+				categoryid = rs.getInt(1);
+			}
+			
+			sql = "delete from t_product where id = '"+id+"'";
 			int i = st.executeUpdate(sql);
 			if(i!=1)
 				return false;
 			
-			sql = "update t_pcategory set productCount = productCount - 1";
+			sql = "update t_pcategory set productCount = productCount - 1 where id = '"+categoryid+"'";
 			
 			i=st.executeUpdate(sql);
 			if(i!=1)
@@ -85,7 +93,7 @@ public class ProductDAL {
 		}finally{
 			   
 			try{
-				   //rs.close();
+				   rs.close();
 				   st.close();
 				   conn.close();
 			}catch(Exception ex){

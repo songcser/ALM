@@ -159,6 +159,7 @@ public class DownloadServlet extends HttpServlet {
 			for(String path:dir){
 				if(!"".equals(path)&&wildMatch(path,lib.getName())){
 					list.add(lib);
+					break;
 				}
 			}
 		}
@@ -206,9 +207,6 @@ public class DownloadServlet extends HttpServlet {
 	    
 	    ServletOutputStream out = response.getOutputStream();
 	    try{
-	    	
-	    	//System.out.println("pre:"+preStr);
-	    	//System.out.println("end:"+endStr);
 			response.setHeader("Content-disposition", "attachment;filename="+zipName+".zip");
 			bos = new BufferedOutputStream(out);
 					//	fos = new FileOutputStream(zipFile);
@@ -217,33 +215,15 @@ public class DownloadServlet extends HttpServlet {
 		    int fileSize = 0;
 			
 			for(Library lib:libList){
-				String name = lib.getName();
-				//index = name.indexOf(path);
-				//if(index!=0){
-				//	continue;
-				//}
-				//System.out.println("action");
-				
-				
-				//Library lib = libSer.getById(Integer.parseInt(libId));
-				
+				//String name = lib.getName();
 				File sourceFile = new File(strFileFolder+"/"+lib.getFileName());
 				
 				if(sourceFile.exists()==false){
 					 System.out.println("file isn't exist");
 					 continue;
-					/*try {  
-		                    if(null != bos) bos.close();  
-		                    if(null != zos) zos.close();  
-		                } catch (IOException e) {  
-		                    e.printStackTrace();  
-		                    throw new RuntimeException(e);  
-		                }*/
-					 //return;
-					 //out.println(">>>>>> 待压缩的文件目录：" + lib.getFileName() + " 不存在. <<<<<<");
 				}else{
-					System.out.println("file name: "+name);
-					System.out.println("file Path: "+sourceFile.getAbsolutePath());
+					//System.out.println("file name: "+name);
+					//System.out.println("file Path: "+sourceFile.getAbsolutePath());
 					ZipEntry zipEntry=new ZipEntry(lib.getName());
 					zos.putNextEntry(zipEntry); 
 					//System.out.println("Zip File:"+zipEntry.getSize());

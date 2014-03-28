@@ -6,6 +6,7 @@
 #include "tinystr.h"
 #include "tinyxml.h"
 #include "Builder.h"
+#include "aes.h"
 #include <Shlwapi.h>
 
 #pragma comment(lib, "Shlwapi.lib")
@@ -13,6 +14,9 @@
 #define BUILDNAME "jysong"
 #define BUILDPASSWORD "SKYfly2012"
 // This is an example of an exported variable
+
+string buildName;
+string buildPassword;
 string workspace;
 string forceFlag;
 string numberFile = "nextBuildNumber";
@@ -101,24 +105,68 @@ bool GetChildNodeByName(TiXmlElement* pRootEle, string &strNodeName,TiXmlElement
 	return false;
 }
 
+PDMBUILDER_API void setWorkSpace(string ws)
+{
+	workspace = ws;
+}
+
 PDMBUILDER_API void setWorkSpace(string ws,string flag)
 {
-
 	workspace = ws;
 	forceFlag = flag;
+}
+
+PDMBUILDER_API void setWorkSpace(string ws,string flag,string name,string password)
+{
+	workspace = ws;
+	forceFlag = flag;
+	
+	buildName.assign(name);
+	
+	int len=name.length();
+	unsigned char pname[17];
+	memset(pname,0,17);
+	memcpy(pname,name.c_str(),16);
+	
+	if (len>16)
+	{
+		//name = name.substr(0,16);
+	}
+	else
+	{
+		for (int i=len;i<16;i++)
+		{
+			pname[i] = '9';
+		}
+	}
+		
+
+	char result[1024];
+	memset(result,0,1024);
+	
+	CBm53AES aes(pname);
+	
+	char pwd[128];
+	memset(pwd,0,128);
+	len = password.length();
+	memcpy(pwd,password.c_str(),len);
+	aes.InvCipherStr(pwd, result);	
+
+	buildPassword.assign(result);
 }
 
 PDMBUILDER_API bool setConfigXML(char *xml)
 {
 	string xmlFile = xml;
-
+	
 	pDoc = new TiXmlDocument();
 	if (pDoc==NULL)
 	{
 		return false;
 	}
+	//printf("xml:%s\n",xmlFile.c_str());
 	pDoc->LoadFile(xmlFile.c_str());
- 
+	
 	TiXmlElement *pRootEle = pDoc->RootElement();
 	if(NULL == pRootEle){
 		return false;
@@ -131,7 +179,7 @@ PDMBUILDER_API bool setConfigXML(char *xml)
 	fileName = xmlFile.substr(index+1);
 	index = fileName.find_last_of(".");
 	fileName = fileName.substr(0,index);
-
+	//printf("xml\n");
 	return true;
 }
 
@@ -197,13 +245,38 @@ PDMBUILDER_API bool checkSourceCode()
 	string svnPath(fullpath+"\\.svn");
 	if (!PathFileExists(svnPath.c_str()))
 	{
+		//printf("to checkout");
 		log += checkout(workspace);
-		writeLog(log,workspace+"\\log");
-		if ("error"==log)
+		
+		//printf("svn checkout\n");
+		int accessInt = log.find("Access to");
+		if (accessInt!=string::npos)
 		{
+			if (log.find("forbidden")!=string::npos)
+			{
+				string nextNumFile(fullpath+"\\nextBuildNumber");
+				if (!PathFileExists(nextNumFile.c_str()))
+				{
+					writeLog(log,workspace+"\\log");
+					delete sourceCode;
+					return true;
+				}
+				if (forceFlag!="false")
+				{
+					writeLog(log,workspace+"\\log");
+				}
+				delete sourceCode;
+				return false;
+			}
+		}
+		int errorint = log.find("error");
+		if (errorint!=string::npos&&errorint==log.length()-5)
+		{
+			writeLog(log,workspace+"\\log");
 			delete sourceCode;
 			return false;
 		}
+		writeLog(log,workspace+"\\log");
 		//writeLog(log,workspace+"\\log");
 		delete sourceCode;
 		return true;
@@ -212,15 +285,19 @@ PDMBUILDER_API bool checkSourceCode()
 	char updateCmd[500];
 	memset(updateCmd,0,sizeof(updateCmd));
 
-	sprintf(updateCmd,"svn update --force --non-interactive --username %s --password %s --accept tf \"%s\"",BUILDNAME,BUILDPASSWORD,sourceCode->GetLocalPath().c_str());
-
+	sprintf(updateCmd,"svn update --force --non-interactive --username %s --password %s --accept tf \"%s\"",buildName.c_str(),buildPassword.c_str(),sourceCode->GetLocalPath().c_str());
+	//printf("to update");
 	int exitCode = 0;
 	log.assign("<---------------------------checkout--------------------------->\n ");
 	log += ExeCommand(updateCmd,exitCode,(char *)workspace.c_str());
+	//printf("svn update\n");
 	if (exitCode>0&&exitCode!=STILL_ACTIVE)
 	{
 		log += "update source code error";
-		writeLog(log,workspace+"\\log");
+		if (forceFlag!="false")
+		{
+			writeLog(log,workspace+"\\log");
+		}
 		delete sourceCode;
 		return false;
 	}else if (log.find("svn cleanup")!=string::npos)
@@ -234,7 +311,10 @@ PDMBUILDER_API bool checkSourceCode()
 		if (exitCode>0&&exitCode!=STILL_ACTIVE)
 		{
 			log += "update source code error";
-			writeLog(log,workspace+"\\log");
+			if (forceFlag!="false")
+			{
+				writeLog(log,workspace+"\\log");
+			}
 			delete sourceCode;
 			return false;
 		}
@@ -246,6 +326,7 @@ PDMBUILDER_API bool checkSourceCode()
 		index += 20;
 		int in = log.find_last_of(".");
 		sourceVersion = log.substr(index,in-index);
+		
 		writeLog(log,workspace+"\\log");
 		delete sourceCode;
 		return true;
@@ -283,18 +364,22 @@ PDMBUILDER_API string checkout(string workspace)
 	fullpath = changeSeparator(fullpath);
 
 	if(sourceCode->GetVersion() == "head"){
-		sprintf(ExportCmd, "svn checkout --force --non-interactive --username \"%s\" --password \"%s\" %s \"%s\"",BUILDNAME,BUILDPASSWORD,sourceCode->GetUrl().c_str(), fullpath.c_str());
+		sprintf(ExportCmd, "svn checkout --force --non-interactive --username %s --password %s %s \"%s\"",buildName.c_str(),buildPassword.c_str(),sourceCode->GetUrl().c_str(), fullpath.c_str());
 	}else{
-		sprintf(ExportCmd, "svn checkout -r %s --force  --non-interactive --username %s --password %s %s \"%s\"",BUILDNAME,BUILDPASSWORD,sourceCode->GetVersion().c_str(),sourceCode->GetUrl().c_str(),fullpath.c_str());
+		sprintf(ExportCmd, "svn checkout -r %s --force  --non-interactive --username %s --password %s %s \"%s\"",buildName.c_str(),buildPassword.c_str(),sourceCode->GetVersion().c_str(),sourceCode->GetUrl().c_str(),fullpath.c_str());
 	}
 
 	int exitCode = 0;
 	log += ExeCommand(ExportCmd,exitCode,(char *)workspace.c_str());
 	if (exitCode>0&&exitCode!=STILL_ACTIVE)
 	{
-		return log;
+		return log +"\nerror";
 	}
-
+	int errorindex = log.find("svn: E");
+	if (errorindex!=string::npos)
+	{
+		return log +"\nerror";
+	}
 	if ("head" == sourceCode->GetVersion())
 	{
 		//int length = log.length();
@@ -552,7 +637,7 @@ string RunBuildStep(string name,string program,string options,int &exitCode)
 	log.append("--------------------------->\n");
 	
 	//writeLog(log,workspace+"\\log");
-	log = ExeCommand(BuildCmd,exitCode,(char *)workspace.c_str());
+	log += ExeCommand(BuildCmd,exitCode,(char *)workspace.c_str());
 	writeLog(log,workspace+"\\log");
 	return log;
 }

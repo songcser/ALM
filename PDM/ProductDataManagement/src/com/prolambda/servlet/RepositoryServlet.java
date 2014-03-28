@@ -156,7 +156,8 @@ public class RepositoryServlet extends HttpServlet {
 		String name = request.getParameter("repName");
 		if(name!=""&&name!=null)
 		{
-			out.write("repName:"+name.trim());
+			System.out.println("Name:"+name);
+			//out.write("repName:"+name.trim());
 			RepositoryService repService = new RepositoryService();
 			Repository rep = repService.getByName(name);
 			ArtifactService artService = new ArtifactService();
@@ -204,11 +205,11 @@ public class RepositoryServlet extends HttpServlet {
 		session.setAttribute("repositorylist", repList);
 		//request.setAttribute("pageCount", pageCount+"");
 		//request.setAttribute("pageNow", "1");
-		
+		System.out.println("repList:"+repList.size());
 		//重新跳转回Wel.jsp
 		//if(!repList.isEmpty())
-			request.getRequestDispatcher("buildManagementPage.jsp").forward(request, response);
-		
+		request.getRequestDispatcher("buildManagementPage.jsp").forward(request, response);
+		return  ;
 	}
 
 	public RepositoryList getRepositoryList()

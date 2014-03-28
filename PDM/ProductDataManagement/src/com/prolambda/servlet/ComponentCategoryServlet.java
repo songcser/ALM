@@ -188,7 +188,7 @@ public class ComponentCategoryServlet extends HttpServlet {
 	
 	public void select(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		String categoryName = request.getParameter("categoryName");
-		String name = categoryName.replace('*', ' ');
+		String name = categoryName.replace('$', ' ');
 		PrintWriter out = response.getWriter();
 		ComponentCategoryService comCateSer = new ComponentCategoryService();
 		ComponentCategory comCate = comCateSer.getByName(name);

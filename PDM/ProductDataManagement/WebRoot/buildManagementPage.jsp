@@ -46,6 +46,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	//alert(name);
     	if(name)
     	{
+    		name = name.replaceAll("%"," ");
+    		//alert(name);
         	location.href="RepositoryServlet?flag=delete&repName="+name;
     	}	
 	}
@@ -63,7 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 	
 	function clean(){
-		location.href="RepositoryServlet?flag=clean";
+		//location.href="RepositoryServlet?flag=clean";
 	}
 	
 	var fileId = 0;
@@ -146,7 +148,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		for(var i=0;i<checkbox.length;i++){
 			if(checkbox[i].checked){
 				var id = checkbox[i].id;
-				table.rows[i+1].cells[2].innerHTML = isRunning;
+				if(isRunning!=""){
+					table.rows[i+1].cells[2].innerHTML = isRunning;
+				}
+				
 				ids += checkbox[i].id+",";
 			}
 		}
@@ -173,13 +178,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function build(){
 		if(confirm("do you want to build?")==false)
 			return;
-		var ids = getIds("true");
+		var ids = getIds("");
 		var url = "BuildManagementServlet?flag=build&ids="+ids;
 		ajaxSend(url,false);
 	}
 	
 	function deleteFile(){
-		if(confirm("do you want to delete")==false)
+		if(confirm("do you want to delete?")==false)
 			return;
 		var checkbox = document.getElementsByName("checkbox");
 		var table = document.getElementById("configTable");
@@ -248,7 +253,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<input type="submit" name="create" value="Create" height="30px"
     			onclick="createDialog()" />
     			<input type="submit" name="delete" value="Delete" onclick="firm()" />
+    			<!-- 
     			<input type="submit" name="clean" value="Clean" onclick="clean()" />
+    			 -->
     		</td>
     	</tr>
     	</table>

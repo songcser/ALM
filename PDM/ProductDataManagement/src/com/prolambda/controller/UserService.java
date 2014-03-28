@@ -20,4 +20,29 @@ public class UserService {
 		UserDAL userDAL = new UserDAL();
 		userDAL.addUser(user);
 	}
+	
+	public void removeUser(String name){
+		UserDAL userDAL = new UserDAL();
+		userDAL.removeUser(name);
+	}
+	
+	public void setBuilder(String name,String password){
+		UserDAL userDAL = new UserDAL();
+		userDAL.setBuilder(name,password);
+	}
+	
+	public String getBuilderName(){
+		UserDAL userDAL = new UserDAL();
+		return userDAL.getBuilderName();
+	}
+	
+	public String getBuilderPassword(){
+		UserDAL userDAL = new UserDAL();
+		return userDAL.getBuilderPassword();
+	}
+	
+	public Boolean addFirstUser(String name,String userId){
+		UserDAL userDAL = new UserDAL();
+		return userDAL.addFirstUser(name,userId);
+	}
 }

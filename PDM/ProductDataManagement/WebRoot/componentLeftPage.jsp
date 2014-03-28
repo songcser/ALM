@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				//alert(obj.options[i].value);
 				if(obj.options[i].value == name){
 					//alert(name);
-					name = name.replace("*"," ");
+					name = name.replace("%"," ");
 					var url = "ComponentCategoryServlet?flag=delete&name="+name;
 					ajaxSend(url,true);
 					
@@ -202,7 +202,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<select id="categoryList" multiple size="30" style="width:220px" onchange="selectCategory()">
     		<%for(int i=0;i<comCateList.size();i++){
     		ComponentCategory comCate = comCateList.get(i);
-    		String name = comCate.getName().replace(' ', '*');
+    		String name = comCate.getName().replace(' ', '$');
     		if(i==0){
     		%>
     		<option value=<%=name %> selected="selected"><%=comCate.getName() %></option>	
