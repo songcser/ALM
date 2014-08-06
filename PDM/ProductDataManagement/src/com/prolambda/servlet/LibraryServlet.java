@@ -76,6 +76,7 @@ public class LibraryServlet extends HttpServlet {
 			LibraryService libSer = new LibraryService();
 			String[] libIdList = libIds.split(",");
 			for(String libId:libIdList){
+				//System.out.println("libId:"+libId);
 				if("".equals(libId)||"null".equals(libId)){
 					continue;
 				}
@@ -86,10 +87,12 @@ public class LibraryServlet extends HttpServlet {
 				//System.out.println("file name"+lib.getName());
 				//System.out.println("file path"+sourceFile.getAbsolutePath());
 				if(sourceFile.exists()==false){
+					System.out.println("file no exist");
 					continue;
 
 				}else{
 					ZipEntry zipEntry=new ZipEntry(lib.getName());
+					//System.out.println("Name:"+lib.getName());
 					zos.putNextEntry(zipEntry);  
 	                // 读取待压缩的文件并写进压缩包里  
 	                fis = new FileInputStream(sourceFile);  

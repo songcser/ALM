@@ -218,7 +218,7 @@ FileBrowser.prototype.showFolder = function(folder){
 	//alert(folder.folders.length);
 	for(var i=0;i<folder.folders.length;i++){
 		var node = folder.folders[i];
-		str += '<tr><td>';
+		str += '<tr bgcolor="#fff"><td>';
 		if(this.checkbox){
 			str += '<a href="javascript: '+ this.obj +'.changeFolderSelected('+node.id+'); "><img src="';
 			if(node.state==0){
@@ -260,6 +260,7 @@ FileBrowser.prototype.showFolder = function(folder){
 	//alert(str);
 	targetDIV.innerHTML = str;
 };
+
 FileBrowser.prototype.changeFolderSelected = function(id){
 	var folder;
 	//alert(this.tempFolder.id+"---"+this.folder.id);

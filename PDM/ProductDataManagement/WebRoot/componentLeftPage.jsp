@@ -194,8 +194,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <p>&nbsp;</p>
     
     <table width="220px" height="500px" border="2" bgcolor="#fff" align="center">
-    	
-    	
     	<tr>
     		<td valign="top">
     		

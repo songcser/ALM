@@ -636,6 +636,63 @@ public class Database {
 		}
 	}
 	
+	public void createBuildProjectTable(){
+		String buildProjectSql = "create table t_buildproject(id int not null auto_increment," +
+				"name varchar(256) not null," +
+				"url varchar(1024) not null," +
+				"relativepath varchar(125) not null," +
+				"primary key(id))";
+		Statement state = null;
+		Connection conn = null;
+		try {
+			conn = getConn();
+			state = conn.createStatement();
+			
+			state.executeUpdate(buildProjectSql);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally{
+			   try{
+				   state.close();
+				   conn.close();
+			   }catch(Exception ex){
+				   ex.printStackTrace();
+			   }
+		
+		}
+	}
+	
+	public void createBuildSubProjectTable(){
+		String buildSubProjectSql = "create table t_buildsubproject(id int not null auto_increment,"+
+				"name varchar(256) not null," +
+				"projectid int not null," +
+				"version varchar(10)," +
+				"buildnumber int," +
+				"running TINYINT(1)," +
+				"buildTime timestamp not null DEFAULT '0000-00-00 00:00:00'," +
+				"primary key(id))";
+		Statement state = null;
+		Connection conn = null;
+		try {
+			conn = getConn();
+			state = conn.createStatement();
+			
+			state.executeUpdate(buildSubProjectSql);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally{
+			   try{
+				   state.close();
+				   conn.close();
+			   }catch(Exception ex){
+				   ex.printStackTrace();
+			   }
+		
+		}
+	}
+	
 	public void createTables(){
 		//HashMap<String, String> table = new HashMap<String, String>();
 		try {
@@ -709,7 +766,12 @@ public class Database {
 			if(table.indexOf("t_backuplog")==-1){
 				createBackupLogTable();
 			}
-			
+			if(table.indexOf("t_buildproject")==-1){
+				createBuildProjectTable();
+			}
+			if(table.indexOf("t_buildsubproject")==-1){
+				createBuildSubProjectTable();
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -874,6 +936,21 @@ public class Database {
 				"log varchar(512) not null"+
 				"primary key(id))";
 		
+		String buildProjectSql = "create table t_buildproject(id int not null auto_increment," +
+				"name varchar(256) not null," +
+				"url varchar(1024) not null," +
+				"relativepath var(125) not null," +
+				"primary key(id))";
+		
+		String buildSubProjectSql = "create table t_buildsubproject(id int not null auto_increment,"+
+				"name varchar(256) not null," +
+				"projectid int not null," +
+				"version varchar(10)," +
+				"buildnumber int," +
+				"running TINYINT(1)," +
+				"buildTime timestamp not null DEFAULT '0000-00-00 00:00:00'," +
+				"primary key(id))";
+		
 		Statement state = null;
 		Connection conn = null;
 		try {
@@ -900,8 +977,10 @@ public class Database {
 			state.executeUpdate(configFileTableSql);
 			state.executeUpdate(builderSql);
 			state.executeUpdate(backupLogSql);
+			state.executeUpdate(buildProjectSql);
+			state.executeUpdate(buildSubProjectSql);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}finally{
 			   try{

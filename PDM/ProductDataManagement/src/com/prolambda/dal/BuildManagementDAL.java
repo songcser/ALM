@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 
+import com.prolambda.model.BuildProject;
 import com.prolambda.model.ConfigFile;
 import com.prolambda.model.ConfigFileList;
 import com.prolambda.model.Database;
@@ -37,7 +38,7 @@ public class BuildManagementDAL {
 				return false;
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}finally{
 			   try{
@@ -302,8 +303,11 @@ public class BuildManagementDAL {
 			   }catch(Exception ex){
 				   ex.printStackTrace();
 			   }
-		
 		}
 		return -1;
+	}
+
+	public void createBuildProject(BuildProject pro){
+		
 	}
 }

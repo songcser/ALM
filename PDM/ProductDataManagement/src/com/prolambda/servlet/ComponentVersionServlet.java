@@ -79,12 +79,21 @@ public class ComponentVersionServlet extends HttpServlet {
 			addDependence(request,response);
 		}else if(flag.equals("removeDependence")){
 			removeDependence(request,response);
+		}else if(flag.equals("showLibrary")){
+			showLibrary(request,response);
 		}
 
 		out.flush();
 		out.close();
 	}
 	
+	private void showLibrary(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
+		String versionid = request.getParameter("versionId");
+		LibraryService libSer = new LibraryService();
+		LibraryList libList = libSer.getAllByComponentId(Integer.parseInt(versionid));
+		request.setAttribute("libraryList", libList);
+		request.getRequestDispatcher("showLibrary.jsp").forward(request, response);
+	}
 
 	private void removeDependence(HttpServletRequest request,HttpServletResponse response) {
 		String dependenceId = request.getParameter("dependenceId");

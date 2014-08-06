@@ -294,13 +294,6 @@ public class PackageFileServlet extends HttpServlet {
             	  index = tempString.indexOf("=");
             	  if(index!=-1){
             		  path = tempString.substring(index+1).trim();
-            		  //index = temppath.indexOf(":");
-            		  //if(index!=-1){
-            		//	  path = temppath;
-            		  //}else{
-            		//	  path = tempPath + "/"+temppath;
-            		//  }
-            		  
             	  }
                }else{
             	   index = tempString.indexOf("OutputBaseFilename");
@@ -310,21 +303,24 @@ public class PackageFileServlet extends HttpServlet {
                 		   setupFile = tempString.substring(index+1).trim()+".exe";
                 	   }
                    }else{
-                	   index = tempString.indexOf("DefaultGroupName");
+                	   index = tempString.indexOf("SourceDir");
                 	   if(index!=-1){
                 		   index = tempString.indexOf("=");
                 		   if(index!=-1){
-                			   defaultPath = tempString.substring(index+1).trim();
+                			   sourceDir = tempString.substring(index+1).trim();
                 		   }
-                	   }else {
-                		   index = tempString.indexOf("SourceDir");
+                	   }
+                	   /*
+                	   else {
+                		   index = tempString.indexOf("DefaultGroupName");
                 		   if(index!=-1){
                 			   index = tempString.indexOf("=");
                 			   if(index!=-1){
-                				   sourceDir = tempString.substring(index+1).trim();
+                				   defaultPath = tempString.substring(index+1).trim();
                 			   }
                 		   }
                 	   }
+                	   */
                    }
                }
                
@@ -337,8 +333,13 @@ public class PackageFileServlet extends HttpServlet {
             	if(index!=-1){
             		sourcePath = path;
             	}else {
-            		sourcePath = tempPath + "/" +defaultPath + "/" + sourceDir + "/" +path + "/" + setupFile;
+            		sourcePath = tempPath + "/" /*+defaultPath + "/"*/ + sourceDir + "/" +path + "/" + setupFile;
             	}
+            	System.out.println("DefaultPath:"+defaultPath);
+            	System.out.println("SourceDir:"+sourceDir);
+            	System.out.println("Path:"+path);
+            	System.out.println("SetupFile:"+setupFile);
+            	System.out.println("Path:"+sourcePath);
             	//System.out.println(path+"/"+setupFile);
             	File sourceFile = new File(sourcePath);
             	gc = new GuidCreator();

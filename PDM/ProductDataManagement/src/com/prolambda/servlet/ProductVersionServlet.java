@@ -130,8 +130,18 @@ public class ProductVersionServlet extends HttpServlet {
 			changeComponentLocation(request,response);
 		}else if(flag.equals("getSetupFile")){
 			getSetupFile(request,response);
+		}else if(flag.equals("showLibrary")){
+			showLibrary(request,response);
 		}
 		
+	}
+	
+	private void showLibrary(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
+		String versionid = request.getParameter("versionId");
+		LibraryService libSer = new LibraryService();
+		LibraryList libList = libSer.getAllByProductId(Integer.parseInt(versionid));
+		request.setAttribute("libraryList", libList);
+		request.getRequestDispatcher("showLibrary.jsp").forward(request, response);
 	}
 	
 	private void getSetupFile(HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -403,7 +413,7 @@ public class ProductVersionServlet extends HttpServlet {
 			isoName = root+".iso";
 		}
 		Process process = runtime.exec(ultraISO+" -imax -l -d "+tempPath+" " +
- 				"-volu TEST_CD -out "+tempPath+"\\"+isoName);
+ 				"-volu \""+root+"\" -out "+tempPath+"\\"+isoName);
 		
 		try {
  			process.waitFor();

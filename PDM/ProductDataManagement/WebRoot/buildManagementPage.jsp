@@ -205,6 +205,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var url = "BuildManagementServlet?flag=delete&ids="+ids;
 		ajaxSend(url,false);
 	}
+	
+	function createbuildproject(){
+		var retValue=window.showModalDialog("createBuildProjectPage.jsp",window,"dialogHeight:200px,dialogWidth:400px, status:0, edge:sunken");
+		
+		if(retValue){
+			var name = retValue[0];
+			var url = retValue[1];
+			var path = retValue[2];
+			
+			location.href="BuildManagementServlet?flag=createproject&name="+name+"&url="+url+"&path="+path;
+		}
+	}
+	
+	function removebuildproject(){
+	
+	}
 	</script>
 	
 	
@@ -250,8 +266,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<table border=0 width="100%" align="center">
     	<tr>
     		<td>
-    			<input type="submit" name="create" value="Create" height="30px"
-    			onclick="createDialog()" />
+    			<input type="submit" name="create" value="Create" height="30px" onclick="createDialog()" />
     			<input type="submit" name="delete" value="Delete" onclick="firm()" />
     			<!-- 
     			<input type="submit" name="clean" value="Clean" onclick="clean()" />
@@ -296,6 +311,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		<div style="position:relative;left:100; top:30;width:80%;height:350px;overflow:auto;border-style:outset;">
 			<p align="center">Build Management</p>
+			
 			<% ConfigFileList fileList = (ConfigFileList)request.getAttribute("configfilelist"); %>
 			<div style="position:relative; top:10;width:98%;height:150px;overflow:auto;border-style:outset;">
 				<table id="configTable" border=1 width="100%">
@@ -306,8 +322,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					 %>
 					 <tr >
 					 	<td width="20"><input type="checkbox" id="<%=file.getId() %>" name="checkbox"></td>
-					 	<td width="150"><a href="BuildManagementServlet?flag=download&id=<%=file.getId() %>"><%=file.getName() %></a></td>
-					 	<td width="150"><%=file.getIsRunning() %></td>
+					 	<td width="250"><a href="BuildManagementServlet?flag=download&id=<%=file.getId() %>"><%=file.getName() %></a></td>
+					 	<td width="50"><%=file.getIsRunning() %></td>
 					 	<td width="200"><%=file.getBuildtime() %></td>
 					 </tr>
 					<%} %>
@@ -326,11 +342,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<iframe name='hidden_frame' id="hidden_frame" style='display:none'></iframe>
 			<input type="hidden" id = "filePath" name="buildManagement" value="new">
 			<table id="fileTable" width="100%" border=1>
-				
-		
 			</table>
 			</form> 
 			</div>
+			 
+			 <input type="button" value="Create Build Project" style="position:relative;left:20;top:10" onclick="createbuildproject()" />
+			 <input type="button" value="Remove Build Project" style="position:relative;left:20;top:10" onclick="removebuildproject()" />
 		</div>
   	</td>
 </tr>

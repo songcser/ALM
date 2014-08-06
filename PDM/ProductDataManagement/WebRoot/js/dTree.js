@@ -191,10 +191,7 @@ dTree.prototype.add = function(id, pid, name, url, title, target, icon, iconOpen
 
 };
 
-
-
 // Open/close all nodes
-
 dTree.prototype.openAll = function() {
 	
 
@@ -202,14 +199,12 @@ dTree.prototype.openAll = function() {
 
 };
 	
-
 dTree.prototype.closeAll = function() {
 	
 
 	this.oAll(false);
 
 };
-
 
 // Add by xiaosilent .
 // get child nodes from web server via AJAX automatically 
@@ -285,9 +280,6 @@ dTree.prototype.getChildren = function(pid,nodeid){
 					}		
 				}
 			}
-			
-			
-			
 			tree.show();
 			
 			tree.openTo(pid);
@@ -301,13 +293,9 @@ dTree.prototype.getChildren = function(pid,nodeid){
 	
 };
 
-
-
-
 dTree.prototype.showCategory = function(){
 
 };
-
 
 // Add by xiaosilent.
 // Call to show the tree .
@@ -332,11 +320,8 @@ dTree.prototype.show = function(){
 	this.rewriteHTML();
 };
 
-
-
 // Outputs the tree to the page , callled by show()
 // Changed by xiaosilent.
-
 dTree.prototype.rewriteHTML = function() {
 	
 
@@ -383,10 +368,7 @@ dTree.prototype.rewriteHTML = function() {
 
 };
 
-
-
 // Creates the tree structure
-
 dTree.prototype.addNode = function(pNode) {
 	
 
@@ -436,11 +418,7 @@ dTree.prototype.addNode = function(pNode) {
 
 };
 
-
-
-
 // Creates the node icon, url and text
-
 dTree.prototype.node = function(node, nodeId) {
 	
 
@@ -509,11 +487,7 @@ dTree.prototype.node = function(node, nodeId) {
 
 };
 
-
-
-
 // Adds the empty and line icons
-
 dTree.prototype.indent = function(node, nodeId) {
 	
 
@@ -545,11 +519,7 @@ dTree.prototype.indent = function(node, nodeId) {
 
 };
 
-
-
-
 // Checks if a node has any children and if it is the last sibling
-
 dTree.prototype.setCS = function(node) {
 
 
@@ -570,11 +540,7 @@ dTree.prototype.setCS = function(node) {
 
 };
 
-
-
-
 // Returns the selected node
-
 dTree.prototype.getSelected = function() {
 	
 
@@ -584,10 +550,7 @@ dTree.prototype.getSelected = function() {
 
 };
 
-
-
 // Highlights the selected node
-
 dTree.prototype.s = function(id) {
 	
 
@@ -628,10 +591,7 @@ dTree.prototype.s = function(id) {
 
 };
 
-
-
 // Toggle Open or close
-
 dTree.prototype.o = function(id) {
 	
 	var cn = this.aNodes[id];
@@ -664,10 +624,7 @@ dTree.prototype.o = function(id) {
 
 };
 
-
-
 // Open or close all nodes
-
 dTree.prototype.oAll = function(status) {
 	
 
@@ -690,11 +647,7 @@ dTree.prototype.oAll = function(status) {
 
 };
 
-
-
-
 // Opens the tree to a specific node
-
 dTree.prototype.openTo = function(nId, bSelect, bFirst) {
 	
 
@@ -736,11 +689,7 @@ dTree.prototype.openTo = function(nId, bSelect, bFirst) {
 
 };
 
-
-				
-
 // Closes all nodes on the same level as certain node
-
 dTree.prototype.closeLevel = function(node) {
 	
 
@@ -762,10 +711,7 @@ dTree.prototype.closeLevel = function(node) {
 
 };
 
-
-
 // Closes all children of a node
-
 dTree.prototype.closeAllChildren = function(node) {
 	
 
@@ -787,10 +733,7 @@ dTree.prototype.closeAllChildren = function(node) {
 
 };
 
-
-
 // Change the status of a node(open or closed)
-
 dTree.prototype.nodeStatus = function(status, id, bottom) {
 	
 
@@ -819,12 +762,7 @@ dTree.prototype.nodeStatus = function(status, id, bottom) {
 
 };
 
-
-
-
-
 // [Cookie] Clears a cookie
-
 dTree.prototype.clearCookie = function() {
 	
 
@@ -838,11 +776,7 @@ dTree.prototype.clearCookie = function() {
 
 };
 
-
-	
-
 // [Cookie] Sets value in a cookie
-
 dTree.prototype.setCookie = function(cookieName, cookieValue, expires, path, domain, secure) {
 	
 
@@ -860,11 +794,7 @@ dTree.prototype.setCookie = function(cookieName, cookieValue, expires, path, dom
 
 };
 
-
-	
-
 // [Cookie] Gets a value from a cookie
-
 dTree.prototype.getCookie = function(cookieName) {
 	
 
@@ -891,11 +821,7 @@ dTree.prototype.getCookie = function(cookieName) {
 
 };
 
-
-
-
 // [Cookie] Returns ids of open nodes as a string
-
 dTree.prototype.updateCookie = function() {
 	
 
@@ -919,11 +845,7 @@ dTree.prototype.updateCookie = function() {
 
 };
 
-
-
-
 // [Cookie] Checks if a node id is in a cookie
-
 dTree.prototype.isOpen = function(id) {
 	
 
@@ -937,9 +859,6 @@ dTree.prototype.isOpen = function(id) {
 	return false;
 
 };
-
-
-
 
 // If Push and pop is not implemented by the browser
 
@@ -958,7 +877,6 @@ if (!Array.prototype.push) {
 	}
 
 };
-
 
 
 if (!Array.prototype.pop) {

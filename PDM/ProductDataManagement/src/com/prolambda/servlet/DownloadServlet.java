@@ -182,6 +182,7 @@ public class DownloadServlet extends HttpServlet {
         
         
     }
+	
 	private static String toJavaPattern(String pattern) {
       
 		String path = pattern;

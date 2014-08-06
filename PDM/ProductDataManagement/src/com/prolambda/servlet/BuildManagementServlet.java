@@ -84,7 +84,13 @@ public class BuildManagementServlet extends HttpServlet {
 	               }
 			}); 
 			t.start();
+		}else if("createproject".equals(flag)){
+			createBuildProject(request,response);
 		}
+	}
+	
+	private void createBuildProject(HttpServletRequest request,HttpServletResponse response){
+		
 	}
 	
 	private void build(){

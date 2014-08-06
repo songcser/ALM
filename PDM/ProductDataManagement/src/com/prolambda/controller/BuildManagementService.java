@@ -3,6 +3,7 @@ package com.prolambda.controller;
 import java.sql.Timestamp;
 
 import com.prolambda.dal.BuildManagementDAL;
+import com.prolambda.model.BuildProject;
 import com.prolambda.model.ConfigFile;
 import com.prolambda.model.ConfigFileList;
 
@@ -50,5 +51,10 @@ public class BuildManagementService {
 	public int getIdByFileName(String filename){
 		BuildManagementDAL buildDAL = new BuildManagementDAL();
 		return buildDAL.getIdByFileName(filename);
+	}
+	
+	private void createBuildProject(BuildProject pro){
+		BuildManagementDAL buildDAL = new BuildManagementDAL();
+		buildDAL.createBuildProject(pro);
 	}
 }

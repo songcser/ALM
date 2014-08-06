@@ -396,7 +396,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	var url = "ProductVersionServlet?flag=getSetupFile";
     	var retStr = ajaxSend(url,false);
     	if(retStr){
-    		alert(retStr);
+    		//alert(retStr);
     		var table = document.getElementById("fileTable");
     		var id = "<%=versionId %>";
     		//alert(id);

@@ -30,12 +30,16 @@ public class CustomFilter implements Filter{
 		int index = url.lastIndexOf("/");
 		//System.out.println();
 		String page = url.substring(index+1);
-		if("index.jsp".equals(page)||"RandCodeServlet".equals(page)||"LoginServlet".equals(page)||"DownloadServlet".equals(page)||"UploadFileServ".equals(page)||"BuildUploadServlet".equals(page)){
+		if("manager.jsp".equals(page)||"index.jsp".equals(page)||"RandCodeServlet".equals(page)||"LoginServlet".equals(page)||"DownloadServlet".equals(page)||"UploadFileServ".equals(page)||"BuildUploadServlet".equals(page)){
+			//System.out.println(page);
 			chain.doFilter(request, response);
-		}else{
+		}
+		else{
+			//System.out.println(page);
+			
 			HttpSession session = req.getSession();
 			//System.out.println(session.getAttribute("user"));
-			if(session.getAttribute("user")==null){
+			if(session.getAttribute("user")==null&&page.endsWith(".jsp")){
 				resp.sendRedirect("index.jsp");
 				return;
 			}else{

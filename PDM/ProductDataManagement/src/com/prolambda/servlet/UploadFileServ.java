@@ -45,19 +45,20 @@ public class UploadFileServ extends HttpServlet {
 			file.mkdirs();
 		}
 	}
+	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)  {
 		doPost(req, resp);
 	}
-
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
 		try {
 			//strFileFolder = "E:\\TempFolder";
 			resp.setContentType("text/html");  
 			PrintWriter out = resp.getWriter(); 
+			HashMap<String, String> nameMap = new HashMap<String, String>();
 			strRet = "";
-			System.out.println("Upload");
-			final long MAX_SIZE = 100 * 1024 * 1024;// 设置上传文件最大为 10M  
+			//System.out.println("Upload");
+			final long MAX_SIZE = 1024 * 1024 * 1024;// 设置上传文件最大为 1G  
 			
 			DiskFileItemFactory dfif = new DiskFileItemFactory();  
 			dfif.setSizeThreshold(4096);// 设置上传文件时用于临时存放文件的内存大小,这里是4K.多于的部分将临时存在硬盘  
@@ -100,7 +101,7 @@ public class UploadFileServ extends HttpServlet {
 	            
 	            //out.println("<a href=\"upload.html\" target=\"_top\">返回</a>");    
 	        }
-	        System.out.println("list size:"+listFiles.size());
+	        //System.out.println("list size:"+listFiles.size());
 			if (null != listFiles && listFiles.size()>0) {
 				for (int i = 0; i <listFiles.size(); i++) {
 					FileItem fileItem = (FileItem)listFiles.get(i);
@@ -134,9 +135,9 @@ public class UploadFileServ extends HttpServlet {
 								//flag = fileItem.getFieldName();
 							}
 							
-							System.out.println("Category: "+arg1);
-							System.out.println("Component: "+arg2);
-							System.out.println("Version: "+arg3);
+							//System.out.println("Category: "+arg1);
+							//System.out.println("Component: "+arg2);
+							//System.out.println("Version: "+arg3);
 						}
 						
 						continue; 
@@ -146,7 +147,7 @@ public class UploadFileServ extends HttpServlet {
 					if (null!= fileItem.getName()) {
 						String fileName = fileItem.getName();
 						
-						System.out.println("["+i+"] "+"File Name---->"+fileName);
+						//System.out.println("["+i+"] "+"File Name---->"+fileName);
 						//long size = fileItem.getSize();
 						if("".equals(fileName)){
 							continue;
@@ -157,8 +158,13 @@ public class UploadFileServ extends HttpServlet {
 						if(index!=-1){
 							fileName = fileName.substring(index+1);
 						}
-						
-						File saveFile = new File(strFileFolder,fileName);
+						GuidCreator gc = new GuidCreator();
+						String guidName = gc.toString();
+						File saveFile = new File(strFileFolder,guidName);
+						//System.out.println("SaveFile: "+saveFile);
+						//System.out.println("FileName: "+fileName);
+						//System.out.println("FilePath: "+filePath);
+						nameMap.put(fileName, guidName);
 						fileNames.add(fileName);
 						filePaths.add(filePath);
 						fileItem.write(saveFile);
@@ -168,7 +174,7 @@ public class UploadFileServ extends HttpServlet {
 			
 			String retStr = getInfo(fileNames,strFileFolder);
 			
-			HashMap<String, String> nameMap = changeName(fileNames,strFileFolder);
+			//HashMap<String, String> nameMap = changeName(fileNames,strFileFolder);
 			//System.out.println("Map:"+nameMap);
 			if(!"".equals(retStr)&&flag==null){
 				int repInt = retStr.indexOf('_');
@@ -176,7 +182,7 @@ public class UploadFileServ extends HttpServlet {
 				int artInt = retStr.indexOf('_', repInt+1);
 				String artName = retStr.substring(repInt+1, artInt);
 				String num = retStr.substring(artInt+1);
-				System.out.println(repName+"----"+artName+"----"+num);
+				//System.out.println(repName+"----"+artName+"----"+num);
 				retStr += InsertLibrary(filePaths,repName,artName,num,nameMap);
 				out.write("UpLoad File You are success!"+ retStr);
 			}else if(!"".equals(flag)&&"build".equals(flag)){
@@ -250,11 +256,10 @@ public class UploadFileServ extends HttpServlet {
 				raf.close(); 
 			}
 		}
-		System.out.println("Log info--->"+retStr);
+		//System.out.println("Log info--->"+retStr);
 		return retStr;
 	}
 	
-
 	public HashMap<String, String> changeName(ArrayList<String> fileNames,String strFileFolder) throws IOException
 	{
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -266,8 +271,8 @@ public class UploadFileServ extends HttpServlet {
 			GuidCreator gc = new GuidCreator();
 			String guidName = gc.toString();
 			String newName = strFileFolder+"/"+guidName;
-			System.out.println("File Name:"+name);
-			System.out.println("File--->"+guidName);
+			//System.out.println("File Name:"+name);
+			//System.out.println("File--->"+guidName);
 			
 			File oldfile=new File(oldName);   
 	        File newfile=new File(newName);
@@ -290,7 +295,7 @@ public class UploadFileServ extends HttpServlet {
 			versionId = (String)session.getAttribute("productVersionId");
 		}
 		LibraryService libSer = new LibraryService();
-		System.out.println("fileName:"+fileNames.size());
+		//System.out.println("fileName:"+fileNames.size());
 		for(String path:fileNames)
 		{
 			String name = path;
@@ -355,13 +360,13 @@ public class UploadFileServ extends HttpServlet {
 	
 	public String InsertComponentLibrary(ArrayList<String > fileNames,String category, String component,String version,HashMap<String,String> nameMap){
 		
-		System.out.println("Import Component:");
+		//System.out.println("Import Component:");
 		ComponentVersionService cVerSer = new ComponentVersionService();
 		ComponentService cSer = new ComponentService();
 		ComponentCategoryService cCateSer = new ComponentCategoryService();
 		if(!cCateSer.contains(category)){
 			ComponentCategory cate = new ComponentCategory();
-			System.out.println("Create Category:");
+			//System.out.println("Create Category:");
 			
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date date = new Date();
@@ -380,7 +385,7 @@ public class UploadFileServ extends HttpServlet {
 		}
 		if(!cSer.contains(category, component)){
 			Component com = new Component();
-			System.out.println("Create Component");
+			//System.out.println("Create Component");
 			int categoryId = cCateSer.getByName(category).getId();
 			
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -399,7 +404,7 @@ public class UploadFileServ extends HttpServlet {
 		}
 		if(!cVerSer.contains(category, component, version)&&!"head".equals(version)){
 			ComponentVersion cVersion = new ComponentVersion();
-			System.out.println("Create Version");
+			//System.out.println("Create Version");
 			int componentId = cSer.getIdByName(category, component);
 			//String version = request.getParameter("version");
 			//String description = request.getParameter("description");
@@ -438,7 +443,7 @@ public class UploadFileServ extends HttpServlet {
 			String type="";
 			if(index>0)
 				type = name.substring(index);
-			System.out.println("Name:"+name);
+			//System.out.println("Name:"+name);
 			String fileName = nameMap.get(name).toString();
 			lib.setName(path);
 			lib.setType(type);

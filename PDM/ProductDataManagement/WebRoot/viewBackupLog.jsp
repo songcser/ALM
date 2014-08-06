@@ -30,8 +30,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		
   	 %>
   		<table border=1 width="90%" align="center">
+  			
   			<tr><th>StartTime</th><th>EndTime</th><th>Status</th><th>Log</th></tr>
-  			<%for(int i=0;i<logList.size();i++){
+  			<% for(int i=0;i<logList.size();i++){
   				BackupLog log = logList.get(i);
   				%>
   			<tr>
